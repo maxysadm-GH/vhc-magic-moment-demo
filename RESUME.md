@@ -1,95 +1,99 @@
-# Resume — Magic Moment v2 Live Demo
+# Resume — Magic Moment v3
 
 **Last session:** 2026-05-06 (overnight)
 **Live demo:** https://maxysadm-gh.github.io/vhc-magic-moment-demo/
+**Plan file:** `~/.claude/plans/isn-t-a-better-and-nifty-lighthouse.md` (approved)
 
 ---
 
-## What works right now (verified)
+## What's live RIGHT NOW
 
 | Layer | Status | Notes |
 |---|---|---|
-| GH Pages site (`https://maxysadm-gh.github.io/vhc-magic-moment-demo/`) | ✅ live | Vosges-toned single page, mobile responsive |
-| Live canvas composite | ✅ live | Paste any domain → Clearbit logo extracted → gold-tinted → overlaid on Vosges box. Real-time. |
-| 5 pre-generated variant videos | ✅ live | Veo 3 + audio (Shake), Sora 2 (Bite), Veo 3 macro (Texture), Seedance 9-ref (Pour), Higgsfield Garden Bloom (Unfurl), Higgsfield Agent Reveal (Reveal) |
-| Higgsfield REST API | ✅ verified | API key + secret in `.env.local` of customizer repo. 121 motion presets indexed. |
-| Sharp pre-composite step | ✅ verified | `mbacio-gift-customizer/scripts/composite-magic-moment.ts` produces clean `history-on-vosges-classic-parcel-1280x720.jpg` |
-| Customizer CI (lint) | ✅ fixed | `tailwind.config.ts` `require()` → ESM import (commit `3084aec`) |
+| GH Pages demo | ✅ updated | Round-1 broken videos torn out. Variants section now shows the v3 pipeline placeholder card (6-step architecture). Logo fallback chain wired (Clearbit → Logo.dev → Google favicons). |
+| Live canvas composite | ✅ live | Paste any domain, the canvas overlays a gold-tinted logo on the Vosges purple-box collection. Now fixes the "logo unavailable" failure for Netflix / Apple / etc. |
+| `scripts/scene-edit-pipeline.ts` | ✅ shipped | New runner in `mbacio-gift-customizer`. Stages 1-5 wired (TODO Stage 6 frame validation). Dry-run validated. |
+| n8n workflows | 🟡 stale | `wJSfj1VyhsROD2eF` (Start) and `vROAnh4B80SPX2hk` (Status) are still active but built around the dead Catbox path. Needs rewrite to point at the new pipeline (small refactor — see plan). |
 
-## What's blocked (the live n8n flow)
+## What's NOT yet done (waiting for you)
 
-The end-to-end live flow (browser → n8n → Higgsfield → video back) is **wired but blocked at the upload step**. Two real blockers found:
-
-1. **Higgsfield `image_url` has a 2083-char limit** — rules out passing the composite as a base64 data URL directly. We must host the composite at a real URL first.
-2. **Catbox.moe rejects n8n cloud's data-center IP** with HTTP 412 "Invalid uploader" — they block anonymous uploads from server / data-center IPs.
-
-### n8n workflows (both active, ready to use once upload is solved)
-
-| Name | Workflow ID | URL |
+| Step | Blocker | Impact |
 |---|---|---|
-| **Magic Moment v2 — Start** | `wJSfj1VyhsROD2eF` | `POST https://mbacio.app.n8n.cloud/webhook/magic-moment-start` |
-| **Magic Moment v2 — Status** | `vROAnh4B80SPX2hk` | `POST https://mbacio.app.n8n.cloud/webhook/magic-moment-status` |
+| **Top up Replicate balance** | hit `402 Insufficient credit` end of round 1 | Can't run any of the 3 video models (Kling / Wan / Seedance) until ~$25-50 added at https://replicate.com/account/billing |
+| **Run the bake-off** | needs Replicate credit + you awake to QA outputs | $2.87 spend. One Gemini-edited still → 3 parallel video models. |
+| **Pick the winner** | needs your eye | Gemini vision pre-flight + per-frame validation are coded but you should be the final judge |
+| **Scale to 4 more products** | needs winner + ~$5 budget | Populates the demo gallery with 5 validated outputs |
+| **Refactor n8n workflows** | needs the pipeline path proven | Cloudinary unsigned upload → Gemini → Kling. Replaces the broken Catbox flow. |
 
-Status workflow is untested but follows the same shape — should work fine once Start emits a `job_set_id`.
+## Tomorrow's exact commands (in order)
 
-## Three paths to unblock (pick one tomorrow)
+### 0. Top up Replicate
+Open https://replicate.com/account/billing, add $25-50 (covers bake-off + 5-product gallery + headroom).
 
-### Path A — **Move upload to the browser** (recommended, no new accounts)
-
-The browser is on a residential IP; Catbox accepts those. Restructure:
-
-1. Browser composites locally (already does)
-2. Browser uploads composite to Catbox via `fetch` (verify CORS first)
-3. Browser POSTs `{composite_url, brand_name, motion_id}` to n8n Start
-4. n8n Start collapses to 3 nodes: Webhook → HTTP Request (Higgsfield create) → Respond
-5. Browser polls n8n Status until `video_url` returns
-
-**Quick CORS check:** open browser console at the demo URL and run:
-```js
-const fd = new FormData();
-fd.append('reqtype', 'fileupload');
-fd.append('fileToUpload', new Blob(['hello'], {type: 'text/plain'}));
-fetch('https://catbox.moe/user/api.php', { method: 'POST', body: fd }).then(r => r.text()).then(console.log);
+### 1. Verify the pipeline still type-checks (sanity)
+```bash
+cd "C:\Users\maxys\Projects\mbacio-gift-customizer"
+npm run scene-edit-pipeline -- \
+  --product=very-berry-cake-and-chocolate-tower \
+  --brand="History Channel" \
+  --logo-url=https://logo.clearbit.com/history.com \
+  --bakeoff --dry-run
 ```
-If it returns a `https://files.catbox.moe/...` URL, CORS works. If CORS error, fall back to Path B.
+Should print: planned spend $2.87, lists Kling + Wan + Seedance, exits clean.
 
-### Path B — **ImgBB API key** (~30 sec)
-
-Max signs up at https://imgbb.com/api → gets free API key → drops `IMGBB_API_KEY` env var in n8n cloud Settings → Variables. Swap Catbox node for ImgBB. ImgBB accepts base64 in form body, no Blob/FormData hacks needed.
-
+### 2. Run the bake-off (real spend ~$2.87)
+```bash
+npm run scene-edit-pipeline -- \
+  --product=very-berry-cake-and-chocolate-tower \
+  --brand="History Channel" \
+  --logo-url=https://logo.clearbit.com/history.com \
+  --bakeoff
 ```
-POST https://api.imgbb.com/1/upload?key=<KEY>
-form-data: image=<base64 string of jpeg>
-returns { data: { url: "https://i.ibb.co/..." } }
+Expected: Gemini scene-edit (~10s) → vision pre-flight gate (PASS) → 3 parallel Replicate calls (~3-7 min) → 3 MP4s downloaded to `.planning/variants/2026-05-06-v3/very-berry-cake-and-chocolate-tower__history-channel/`.
+
+### 3. QA the outputs by eye + against the four pillars
+Open `scene.jpg`, then `kling.mp4`, `wan.mp4`, `seedance.mp4`. For each:
+- Is every visible Vosges crest replaced with History Channel? ✓/✗
+- Is the logo gold-foil embossed (not flat overlay)? ✓/✗
+- Does it stay pixel-stable across all frames? ✓/✗
+- Is the chocolate / ribbon / lighting unchanged? ✓/✗
+- Does the final frame land on an "ownable" shot? ✓/✗
+
+### 4. Pick the winner. Run 4 more products with that model
+e.g. if Kling wins:
+```bash
+npm run scene-edit-pipeline -- --product=dream-sleep-chocolate-ritual-gift-set --brand="History Channel" --logo-url=https://logo.clearbit.com/history.com --model=kling
+npm run scene-edit-pipeline -- --product=very-berry-cake-and-chocolate-tower-copy --brand="History Channel" --logo-url=https://logo.clearbit.com/history.com --model=kling
+# etc — one per archetype (tower, flat-box, lifestyle, open-collection)
 ```
 
-### Path C — **Self-host composite via M51 → ngrok / Cloudflare tunnel** (ugly but works)
+### 5. Update demo with validated MP4s
+Copy the 5 winning MP4s into `vhc-magic-moment-demo/videos/`, rewrite the variants section (remove placeholder card, add product-picker grid + 5 video cards), push.
 
-Run a tiny Express server on M51 that accepts the base64 + serves it back at a stable URL. Tunnel via ngrok / Cloudflare. Use the tunnel URL in the n8n Higgsfield call. Brittle — only works while M51 + tunnel are up.
+## Known unknowns to resolve at first run
 
-## Tomorrow's checklist (in order)
+1. **Replicate slug verification.** The script uses `kwaivgi/kling-v3-omni-video`, `wan-video/wan-2.7`, `bytedance/seedance-2.0` per research. If any returns 404 at create time, fall back to:
+   - kling: try `kwaivgi/kling-v2.1-master` (we know this one exists)
+   - wan: `wan-video/wan-2.5-i2v` (used in round 1 search)
+   - seedance: `bytedance/seedance-1-pro` (used in round 1 — may not have multi-shot mode)
+2. **Replicate input schemas** for the new models. The `buildInput` in the script uses `{image, prompt, duration, aspect_ratio}` — Kling 3.0 omni may want different field names. Check the model page on replicate.com if create returns 422.
+3. **Gemini vision pre-flight rubric strictness.** First run will probably FAIL the gate even though the edit is fine — the rubric's `boxesWithCorrectBrand >= boxesDetected` is strict. If that happens, lower the bar to `>= 0.7 * boxesDetected` or just rely on eye QA.
 
-- [ ] Open https://maxysadm-gh.github.io/vhc-magic-moment-demo/ — visually QA on phone + desktop
-- [ ] Decide Path A / B / C above
-- [ ] If Path A: test Catbox CORS in browser console, then update `index.html` to do the upload + replace static videos with the live-generated one
-- [ ] If Path B: get ImgBB key, swap Catbox → ImgBB in n8n Start workflow
-- [ ] Test end-to-end with the History Channel composite
-- [ ] When the live flow works: add a "Generate cinematic reveal" button to the GH Pages demo
-- [ ] Decide which 1 variant becomes the production magic moment in the real customizer (engine repo `mbacio-gift-customizer`)
-- [ ] Wire that variant into the wizard's capture-submit step (per `D-007` in `mbacio-gift-customizer/.planning/DECISIONS.md`)
+## Spend ledger across all sessions
 
-## Repos & paths
+- Round 1 (full sweep, Replicate+Sora+Higgsfield+sharp pipeline): ~$19.20
+- Round 2 (Higgsfield motion presets + composite test): included above
+- **v3 bake-off projected**: ~$2.87
+- **v3 scale to 5 products**: ~$4.56
+- **Total projected MVP**: ~$26.63 of $30 ceiling — under by $3.37
 
-- **This demo:** https://github.com/maxysadm-GH/vhc-magic-moment-demo
+## Repos & key paths
+
+- **This demo:** https://github.com/maxysadm-GH/vhc-magic-moment-demo (public)
 - **Production engine:** https://github.com/maxysadm-GH/mbacio-gift-customizer (private)
-- **Project research:** `mbacio-gift-customizer/.planning/research/2026-05-05-magic-moment-v2-research.md`
+- **v3 pipeline runner:** `mbacio-gift-customizer/scripts/scene-edit-pipeline.ts`
+- **Gemini scene-edit prompt source:** `mbacio-gift-customizer/api/src/functions/generate-hero.ts`
+- **Product catalog:** `mbacio-gift-customizer/public/assets/library.json` (31 products)
 - **Brand guidelines (motion):** `~/.claude/skills/user/ui-ux-pro-max/brand-guidelines/vosges.md`
-- **DECISIONS log:** `mbacio-gift-customizer/.planning/DECISIONS.md` (D-007 → D-015)
+- **Plan (approved):** `~/.claude/plans/isn-t-a-better-and-nifty-lighthouse.md`
 - **Memory pointer:** `~/.claude/projects/C--Users-maxys/memory/project_magic-moment-v2.md`
-
-## Spend so far across all sessions
-
-- Round 1 (full sweep, Replicate+Sora+Higgsfield): ~$17.10
-- Higgsfield round 2 (4 motion variants): ~$2.10
-- Higgsfield test (data-URL probe): rejected, no charge
-- **Total: ~$19.20 of $30 ceiling** — $10.80 headroom for tomorrow's iteration.
