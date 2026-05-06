@@ -64,15 +64,18 @@
     .variants-head p{color:var(--mute);max-width:64ch;margin:1em auto 0}
     .pillars{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-top:18px;font-family:var(--serif);font-style:italic;color:var(--gold);font-size:1rem}
     .pillars .pill{padding:4px 12px;border:1px solid var(--line);border-radius:999px}
-    .video-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(380px,1fr));gap:24px}
-    .video-card{background:rgba(0,0,0,0.28);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;transition:transform .25s,border-color .25s}
-    .video-card:hover{transform:translateY(-2px);border-color:rgba(197,160,89,0.32)}
-    .video-card video{width:100%;display:block;aspect-ratio:16/9;background:#000;object-fit:cover}
-    .video-card .body{padding:20px 22px}
-    .video-card h3{font-size:1.55rem;margin-bottom:6px}
-    .video-card .pillar{display:inline-block;font-size:.7rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);border:1px solid var(--line);padding:3px 10px;border-radius:999px;margin-bottom:12px}
-    .video-card p{color:var(--mute);font-size:.92rem;margin:0}
-    .video-card .meta{margin-top:14px;font-size:.78rem;color:var(--mute);font-family:var(--sans);letter-spacing:.4px}
+    .placeholder-card{background:linear-gradient(180deg,rgba(0,0,0,0.32) 0%,rgba(0,0,0,0.18) 100%);border:1px solid var(--line);border-radius:18px;padding:48px 56px;max-width:920px;margin:0 auto}
+    .placeholder-head{margin-bottom:32px}
+    .placeholder-eyebrow{font-size:.74rem;letter-spacing:3px;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:10px}
+    .placeholder-card h3{font-size:1.7rem;color:var(--cream);margin:0;line-height:1.25;font-family:var(--serif);font-weight:300;letter-spacing:.3px}
+    .pipeline{counter-reset:step;padding:0;margin:0;list-style:none;display:grid;gap:14px}
+    .pipeline li{counter-increment:step;display:grid;grid-template-columns:auto 1fr;gap:18px;padding:14px 0;border-top:1px solid var(--line)}
+    .pipeline li:first-child{border-top:none}
+    .pipeline li::before{content:counter(step);font-family:var(--serif);font-style:italic;font-size:1.6rem;color:var(--gold);font-weight:300;line-height:1;align-self:center}
+    .pipeline li b{display:block;color:var(--cream);font-weight:500;margin-bottom:2px}
+    .pipeline li span{color:var(--mute);font-size:.92rem;line-height:1.55}
+    .placeholder-foot{margin-top:28px;padding-top:20px;border-top:1px solid var(--line);color:var(--gold-light);font-size:.92rem;font-style:italic;font-family:var(--serif)}
+    @media (max-width:640px){.placeholder-card{padding:32px 24px}}
     /* Wizard preview */
     .wizard{padding:80px 0;border-top:1px solid var(--line)}
     .wizard-head{text-align:center;margin-bottom:36px}
@@ -148,7 +151,7 @@
       <div class="container">
         <div class="variants-head">
           <h2>See it in motion</h2>
-          <p>Five cinematic reveals, each fired by a different premium AI video model. Same input. Different signature beat. Pick the language that fits the brand moment.</p>
+          <p>Cinematic multi-shot reveal — generating with the v3 pipeline. Round 1 outputs were torn out (the AI hallucinated logos as text — wrong tool order). The v3 pipeline pre-edits the scene before video.</p>
           <div class="pillars">
             <div class="pill">Consistent</div>
             <div class="pill">Realistic</div>
@@ -157,56 +160,20 @@
           </div>
         </div>
 
-        <div class="video-grid">
-          <article class="video-card">
-            <video src="videos/J-hf-bloom.mp4" controls loop muted playsinline preload="metadata" poster="images/composite-sample.jpg"></video>
-            <div class="body">
-              <span class="pillar">Transformation</span>
-              <h3>The Unfurl</h3>
-              <p>A satin gold ribbon blooms open in a butterfly arc. Particles assemble into the brand logo on the foil — direct callback to Vosges' Love Aflutter campaign DNA.</p>
-              <div class="meta">Higgsfield · DoP Preview · Garden Bloom motion · 5s</div>
-            </div>
-          </article>
-
-          <article class="video-card">
-            <video src="videos/B-shake.mp4" controls loop playsinline preload="metadata" poster="images/composite-sample.jpg"></video>
-            <div class="body">
-              <span class="pillar">FOMO + audio</span>
-              <h3>The Shake</h3>
-              <p>Two hands shake the closed gift box. Time slows. The logo on the lid catches a single warm spotlight as the box lands on dark velvet. With native audio.</p>
-              <div class="meta">Google Veo 3 · 6s · synchronized audio</div>
-            </div>
-          </article>
-
-          <article class="video-card">
-            <video src="videos/E-texture.mp4" controls loop muted playsinline preload="metadata" poster="images/composite-sample.jpg"></video>
-            <div class="body">
-              <span class="pillar">Texture peak</span>
-              <h3>The Texture</h3>
-              <p>Extreme macro glide through gold-foil grain → cocoa nibs → satin ribbon weave → matte velvet. Editorial material study, Aesop / Hermès grade.</p>
-              <div class="meta">Google Veo 3 · 5s · 100mm macro</div>
-            </div>
-          </article>
-
-          <article class="video-card">
-            <video src="videos/G-pour.mp4" controls loop muted playsinline preload="metadata" poster="images/composite-sample.jpg"></video>
-            <div class="body">
-              <span class="pillar">Consistency peak</span>
-              <h3>The Pour</h3>
-              <p>Glossy ganache cascades over a branded card; freezes mid-pour; pull-back as the card slides into a Vosges box. Logo locked across every frame via 9-reference-image input.</p>
-              <div class="meta">ByteDance Seedance 2.0 Pro · 8s · 9-ref ID-lock</div>
-            </div>
-          </article>
-
-          <article class="video-card">
-            <video src="videos/H-hf-reveal.mp4" controls loop muted playsinline preload="metadata" poster="images/composite-sample.jpg"></video>
-            <div class="body">
-              <span class="pillar">Cinema baseline</span>
-              <h3>The Reveal</h3>
-              <p>Slow ¾ orbit around the closed box, smooth push-in to the gold-foil-embossed logo, lid lifts revealing jewel-toned truffles. Editorial unwrap.</p>
-              <div class="meta">Higgsfield · DoP Preview · Agent Reveal motion · 5s</div>
-            </div>
-          </article>
+        <div class="placeholder-card">
+          <div class="placeholder-head">
+            <span class="placeholder-eyebrow">v3 pipeline · regenerating</span>
+            <h3>One realistic logo-on-product still → multi-shot cinematic reveal</h3>
+          </div>
+          <ol class="pipeline">
+            <li><b>Pick a product</b><span>Customer selects 1 of 31 Vosges products (truffle box, hatbox, drinking-chocolate set, etc.)</span></li>
+            <li><b>Capture brand</b><span>Logo extracted from domain (Clearbit → Brandfetch → Logo.dev → file upload)</span></li>
+            <li><b>Scene-edit</b><span>Gemini 2.5 Flash Image: every visible Vosges crest replaced with the customer logo, gold-foil embossed, on the picked product. ~$0.04</span></li>
+            <li><b>Pre-flight gate</b><span>Gemini vision validates every box face shows customer brand correctly. Hard fail = regenerate.</span></li>
+            <li><b>Multi-shot cinema</b><span>One API call to native multi-shot model (Kling 3.0 omni / Wan 2.7 / Seedance 2.0). Output: 5-6 cinematic angles in one video, logo locked across all cuts. ~$0.50–$1.21</span></li>
+            <li><b>Per-frame validation</b><span>Gemini vision checks frames at 0/25/50/75/100%. Any failure → re-roll once. Then ship.</span></li>
+          </ol>
+          <p class="placeholder-foot">Bake-off in progress: Kling 3.0 omni vs Wan 2.7 vs Seedance 2.0 on the same edited still — pick the winner objectively against the four pillars.</p>
         </div>
       </div>
     </section>
@@ -230,10 +197,9 @@
 
     <section class="cta">
       <div class="container">
-        <h2>Ready to build the demo?</h2>
-        <p>The magic moment is the hook. Everything else converts.</p>
-        <a class="button" href="#variants">See the variants</a>
-        <a class="button outline" href="https://github.com/maxysadm-GH/mbacio-gift-customizer" target="_blank" rel="noopener" style="margin-left:14px">Engine source</a>
+        <h2>Magic moment, properly built</h2>
+        <p>One API-driven pipeline: pick product, capture brand, scene-edit, multi-shot reveal. No hallucinated text, no generic chocolate b-roll, no wrong logo. Live demo coming back online once the v3 bake-off picks a winner.</p>
+        <a class="button outline" href="https://github.com/maxysadm-GH/mbacio-gift-customizer" target="_blank" rel="noopener">Engine source</a>
       </div>
     </section>
   </main>
@@ -241,7 +207,7 @@
   <footer>
     <div class="container footer-row">
       <div class="cobrand">Vosges Haut-Chocolat<small>Powered by MBACIO</small></div>
-      <div>Round 1 spend $17 of $30 · 8 variants generated · 4 pillars covered</div>
+      <div>v3 pipeline rebuilding · ~$2.87 bake-off pending · four pillars enforced</div>
     </div>
   </footer>
 
@@ -329,9 +295,29 @@
         if (!domain) { status.textContent = 'Live preview · paste website above'; return; }
 
         status.textContent = 'fetching logo…';
-        // Clearbit returns a transparent PNG of the brand logo for any domain
-        const logoUrl = `https://logo.clearbit.com/${encodeURIComponent(domain)}`;
-        const logoImg = await loadImage(logoUrl);
+        // Logo fallback chain — Clearbit fails on many domains. Try multiple
+        // sources in order until one returns a usable transparent PNG.
+        const logoSources = [
+          `https://logo.clearbit.com/${encodeURIComponent(domain)}`,
+          `https://img.logo.dev/${encodeURIComponent(domain)}?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ`, // public-key demo token
+          `https://www.google.com/s2/favicons?domain=${encodeURIComponent(domain)}&sz=256`,
+        ];
+        let logoImg = null;
+        let triedSources = 0;
+        for (const src of logoSources) {
+          triedSources++;
+          try {
+            logoImg = await loadImage(src);
+            if (logoImg) break;
+          } catch {
+            // try next source
+          }
+        }
+        if (!logoImg) {
+          status.textContent = 'logo unavailable for ' + domain + ' — try another or upload one';
+          drawPlaceholder(document.getElementById('company').value);
+          return;
+        }
 
         // Compute target placement box
         const bx = Math.round(LOGO_BOX.x * W);
