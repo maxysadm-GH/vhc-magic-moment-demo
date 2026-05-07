@@ -64,18 +64,19 @@
     .variants-head p{color:var(--mute);max-width:64ch;margin:1em auto 0}
     .pillars{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-top:18px;font-family:var(--serif);font-style:italic;color:var(--gold);font-size:1rem}
     .pillars .pill{padding:4px 12px;border:1px solid var(--line);border-radius:999px}
-    .placeholder-card{background:linear-gradient(180deg,rgba(0,0,0,0.32) 0%,rgba(0,0,0,0.18) 100%);border:1px solid var(--line);border-radius:18px;padding:48px 56px;max-width:920px;margin:0 auto}
-    .placeholder-head{margin-bottom:32px}
-    .placeholder-eyebrow{font-size:.74rem;letter-spacing:3px;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:10px}
-    .placeholder-card h3{font-size:1.7rem;color:var(--cream);margin:0;line-height:1.25;font-family:var(--serif);font-weight:300;letter-spacing:.3px}
-    .pipeline{counter-reset:step;padding:0;margin:0;list-style:none;display:grid;gap:14px}
-    .pipeline li{counter-increment:step;display:grid;grid-template-columns:auto 1fr;gap:18px;padding:14px 0;border-top:1px solid var(--line)}
-    .pipeline li:first-child{border-top:none}
-    .pipeline li::before{content:counter(step);font-family:var(--serif);font-style:italic;font-size:1.6rem;color:var(--gold);font-weight:300;line-height:1;align-self:center}
-    .pipeline li b{display:block;color:var(--cream);font-weight:500;margin-bottom:2px}
-    .pipeline li span{color:var(--mute);font-size:.92rem;line-height:1.55}
-    .placeholder-foot{margin-top:28px;padding-top:20px;border-top:1px solid var(--line);color:var(--gold-light);font-size:.92rem;font-style:italic;font-family:var(--serif)}
-    @media (max-width:640px){.placeholder-card{padding:32px 24px}}
+    .v3-result{display:grid;grid-template-columns:1fr 1.4fr;gap:32px;align-items:start;max-width:1200px;margin:0 auto}
+    @media (max-width:880px){.v3-result{grid-template-columns:1fr}}
+    .v3-scene,.v3-video{background:rgba(0,0,0,0.28);border:1px solid var(--line);border-radius:14px;padding:24px}
+    .v3-scene img,.v3-video video{width:100%;display:block;border-radius:8px;background:#000}
+    .v3-eyebrow{font-size:.7rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:12px}
+    .v3-scene img{aspect-ratio:1/1;object-fit:contain;background:#1a0f1c}
+    .v3-video video{aspect-ratio:16/9;object-fit:cover}
+    .v3-video h3{font-family:var(--serif);font-weight:400;color:var(--gold);font-size:1.55rem;margin:14px 0 8px}
+    .v3-caption{color:var(--mute);font-size:.92rem;line-height:1.55;margin:14px 0 0}
+    .v3-caption b{color:var(--gold-light);font-weight:500}
+    .v3-meta{margin-top:14px;font-size:.78rem;color:var(--mute);font-family:var(--sans);letter-spacing:.4px;border-top:1px solid var(--line);padding-top:14px}
+    .v3-foot{margin-top:36px;text-align:center;color:var(--gold-light);font-size:.92rem;font-style:italic;font-family:var(--serif)}
+    .v3-foot b{font-style:normal;color:var(--gold)}
     /* Wizard preview */
     .wizard{padding:80px 0;border-top:1px solid var(--line)}
     .wizard-head{text-align:center;margin-bottom:36px}
@@ -151,7 +152,7 @@
       <div class="container">
         <div class="variants-head">
           <h2>See it in motion</h2>
-          <p>Cinematic multi-shot reveal — generating with the v3 pipeline. Round 1 outputs were torn out (the AI hallucinated logos as text — wrong tool order). The v3 pipeline pre-edits the scene before video.</p>
+          <p>Real v3 reference run: <b>History Channel</b> on the Vosges <b>Very Berry Cake &amp; Chocolate Tower</b>. Gemini 2.5 Flash Image scene-edit → Higgsfield DoP cinematic motion. Logo region pixel-stable across every frame.</p>
           <div class="pillars">
             <div class="pill">Consistent</div>
             <div class="pill">Realistic</div>
@@ -160,21 +161,22 @@
           </div>
         </div>
 
-        <div class="placeholder-card">
-          <div class="placeholder-head">
-            <span class="placeholder-eyebrow">v3 pipeline · regenerating</span>
-            <h3>One realistic logo-on-product still → multi-shot cinematic reveal</h3>
+        <div class="v3-result">
+          <div class="v3-scene">
+            <span class="v3-eyebrow">Stage 3 · scene-edit</span>
+            <img src="images/v3/scene-very-berry-history.jpg" alt="Vosges Very Berry tower with History Channel H gold-foil-embossed">
+            <p class="v3-caption">One Gemini 2.5 Flash Image call — every visible Vosges branding surface replaced with the History Channel "H" in 24k-gold foil emboss. ~$0.04, ~10s.</p>
           </div>
-          <ol class="pipeline">
-            <li><b>Pick a product</b><span>Customer selects 1 of 31 Vosges products (truffle box, hatbox, drinking-chocolate set, etc.)</span></li>
-            <li><b>Capture brand</b><span>Logo extracted from domain (Clearbit → Brandfetch → Logo.dev → file upload)</span></li>
-            <li><b>Scene-edit</b><span>Gemini 2.5 Flash Image: every visible Vosges crest replaced with the customer logo, gold-foil embossed, on the picked product. ~$0.04</span></li>
-            <li><b>Pre-flight gate</b><span>Gemini vision validates every box face shows customer brand correctly. Hard fail = regenerate.</span></li>
-            <li><b>Multi-shot cinema</b><span>One API call to native multi-shot model (Kling 3.0 omni / Wan 2.7 / Seedance 2.0). Output: 5-6 cinematic angles in one video, logo locked across all cuts. ~$0.50–$1.21</span></li>
-            <li><b>Per-frame validation</b><span>Gemini vision checks frames at 0/25/50/75/100%. Any failure → re-roll once. Then ship.</span></li>
-          </ol>
-          <p class="placeholder-foot">Bake-off in progress: Kling 3.0 omni vs Wan 2.7 vs Seedance 2.0 on the same edited still — pick the winner objectively against the four pillars.</p>
+          <div class="v3-video">
+            <span class="v3-eyebrow">Stage 5 · cinematic motion</span>
+            <video src="videos/v3/bloom.mp4" controls loop muted playsinline preload="metadata"></video>
+            <h3>The Unfurl · Garden Bloom motion</h3>
+            <p class="v3-caption">Higgsfield DoP-preview, motion strength 0.35 — gold-dust particles bloom outward, the embossed History Channel logo on the box stays pixel-stable across every frame. <b>This is the magic moment that fires the moment a corporate buyer captures their brand.</b></p>
+            <div class="v3-meta">Higgsfield · DoP-preview · Garden Bloom · 5s · $0.56 · 113s wall time</div>
+          </div>
         </div>
+
+        <p class="v3-foot">Pipeline cost per customer: <b>~$0.60</b> (Gemini scene-edit + 1 Higgsfield motion). Three more motion presets queued — additional shots will appear here as they complete.</p>
       </div>
     </section>
 
@@ -207,7 +209,7 @@
   <footer>
     <div class="container footer-row">
       <div class="cobrand">Vosges Haut-Chocolat<small>Powered by MBACIO</small></div>
-      <div>v3 pipeline rebuilding · ~$2.87 bake-off pending · four pillars enforced</div>
+      <div>v3 reference run live · Vosges × History Channel · ~$0.60/customer · four pillars enforced</div>
     </div>
   </footer>
 
