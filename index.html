@@ -92,6 +92,18 @@
     .v3-card .v3-card-meta{margin-top:auto;padding-top:14px;font-size:.74rem;color:var(--mute);letter-spacing:.4px;border-top:1px solid var(--line);margin-top:14px;padding-top:12px}
     .v3-card.v3-failed video{filter:grayscale(1) opacity(.35)}
     .v3-card.v3-failed .v3-card-cap{color:var(--mute);font-style:italic}
+    .v3-yesterday{position:relative}
+    .v3-verdict{display:inline-block;padding:4px 11px;border-radius:999px;font-size:.65rem;letter-spacing:1.4px;text-transform:uppercase;border:1px solid;font-weight:500;margin-bottom:8px}
+    .v3-verdict-keep{background:rgba(120,180,120,0.15);color:#9adc9a;border-color:#9adc9a}
+    .v3-verdict-develop{background:rgba(197,160,89,0.15);color:var(--gold);border-color:var(--gold)}
+    .v3-verdict-reject{background:rgba(217,112,100,0.15);color:#e08a82;border-color:#d97064}
+    .v3-verdict-noverdict{background:rgba(248,245,240,0.06);color:var(--mute);border-color:var(--line)}
+    .v3-card.v3-keep{border-color:rgba(154,220,154,0.4);box-shadow:0 0 0 1px rgba(154,220,154,0.15)}
+    .v3-card.v3-develop{border-color:rgba(197,160,89,0.4)}
+    .v3-card.v3-reject{opacity:.78}
+    .v3-card.v3-reject video{filter:saturate(.7)}
+    .v3-not-rendered{aspect-ratio:16/9;border:1px dashed var(--line);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-direction:column;color:var(--mute);font-family:var(--serif);font-style:italic;font-size:1.05rem;text-align:center;padding:14px;background:rgba(0,0,0,0.18)}
+    .v3-not-rendered small{font-family:var(--sans);font-style:normal;font-size:.72rem;letter-spacing:.5px;color:rgba(248,245,240,0.4);margin-top:6px}
     .v3-foot{margin-top:48px;text-align:center;color:var(--gold-light);font-size:.95rem;font-style:italic;font-family:var(--serif)}
     .v3-foot b{font-style:normal;color:var(--gold)}
     /* Wizard preview */
@@ -174,27 +186,116 @@
         </div>
 
         <div class="v3-gallery v3-gallery-3" id="v3-gallery">
-          <div class="v3-card" data-shot="bloom">
+          <div class="v3-card" data-shot="unfurl">
             <video src="videos/v3/bloom.mp4" poster="images/v3/scene-very-berry-netflix.jpg" controls loop muted playsinline preload="metadata"></video>
             <span class="v3-pillar">Transformation</span>
             <h3>The Unfurl</h3>
-            <p class="v3-card-cap">Higgsfield's Garden Bloom motion. Gold-dust particles unfurl outward from the lid; the embossed NETFLIX wordmark stays pixel-stable across every face. This is the concept you flagged from yesterday's 9-variant compare as the one to develop.</p>
+            <p class="v3-card-cap"><b>Locked source:</b> very-berry-cake-and-chocolate-tower (Shopify). Higgsfield Garden Bloom motion on the closed Vosges tower scene; gold-dust unfurl outward, NETFLIX wordmark pixel-stable across every face. This is the concept you flagged yesterday as the one to refine.</p>
           </div>
-          <div class="v3-card" data-shot="push-glass">
-            <video src="videos/v3/push-glass.mp4" poster="images/v3/scene-very-berry-netflix.jpg" controls loop muted playsinline preload="metadata"></video>
+          <div class="v3-card" data-shot="texture-tilt">
+            <video src="videos/v3/texture-tilt.mp4" poster="images/v3/scene-truffle-netflix.jpg" controls loop muted playsinline preload="metadata"></video>
             <span class="v3-pillar">Material study</span>
-            <h3>The Texture</h3>
-            <p class="v3-card-cap">Higgsfield's Push-To-Glass motion — extreme macro glide along the gold-foil wordmark until the foil grain fills the frame. Image-to-video means the chocolate stays Vosges chocolate; no hallucinated material like the v1 Veo Texture cut.</p>
+            <h3>The Texture · Tilt Down</h3>
+            <p class="v3-card-cap"><b>Locked source:</b> exotic-truffle-collection-16-pieces (Shopify) — open box, 16 real Vosges truffles. Higgsfield Tilt Down: camera tilts from gold-foil NETFLIX lid down across the actual jewel-toned Vosges truffles inside. Image2video keeps the chocolate true Vosges — fixes yesterday's "wrong chocolate" rejection.</p>
           </div>
-          <div class="v3-card" data-shot="crash-zoom">
-            <video src="videos/v3/crash-zoom.mp4" poster="images/v3/scene-very-berry-netflix.jpg" controls loop muted playsinline preload="metadata"></video>
-            <span class="v3-pillar">FOMO impact</span>
-            <h3>The Shake</h3>
-            <p class="v3-card-cap">Higgsfield's Crash Zoom In — decisive snap from wide to a tight macro on the foil. Closest stand-in for the v1 Veo Shake until Replicate is topped up so we can render the true two-tap viral product-shake variant.</p>
+          <div class="v3-card v3-failed" data-shot="texture-push">
+            <div class="v3-not-rendered">Push-To-Glass<br><small>Higgsfield server timeout x2 on this preset · retry queued</small></div>
+            <span class="v3-pillar">Material study · B</span>
+            <h3>The Texture · Push To Glass</h3>
+            <p class="v3-card-cap"><b>Locked source:</b> same truffle Shopify scene. Planned A/B against Tilt Down — Higgsfield queue timed out twice on this preset. Tilt Down (left) is the working winner; Push-To-Glass will re-render off-hours.</p>
           </div>
         </div>
 
-        <p class="v3-foot">Yesterday's full 9-variant compare lives in the engine repo at <code style="font-family:'DM Sans',monospace;font-size:.82em;color:var(--gold-light)">.planning/variants/2026-05-06/index.html</code>. The three above are the survivors.</p>
+        <p class="v3-foot"><b>The Shake</b> is held back this round. Hand-on-box product-shake is text-to-video only (Veo / Sora). Replicate is at 402; once topped up I'll render the real Veo Shake on a Vosges-branded scene. See yesterday's compare below for the v1 Shake render.</p>
+      </div>
+    </section>
+
+    <section class="variants" style="border-top:1px solid var(--line)">
+      <div class="container">
+        <div class="variants-head">
+          <h2>Yesterday's 9-variant compare</h2>
+          <p>Every variant from the 2026-05-06 compare run, with your verdicts attached. <span style="color:var(--gold-light)">Green</span> = liked / refine. <span style="color:var(--gold)">Gold</span> = develop further. <span style="color:#d97064">Red</span> = rejected. <span style="color:var(--mute)">Gray</span> = not rendered or no verdict captured.</p>
+        </div>
+        <div class="v3-gallery v3-gallery-3" id="yesterday-gallery">
+
+          <article class="v3-card v3-yesterday v3-keep" data-id="J-hf-bloom">
+            <video src="videos/v1-yesterday/J-hf-bloom.mp4" controls loop muted playsinline preload="metadata"></video>
+            <span class="v3-pillar v3-verdict v3-verdict-keep">Refine tomorrow — concept liked</span>
+            <h3>J · The Unfurl</h3>
+            <p class="v3-card-cap"><b>Higgsfield Garden Bloom</b> · dop-preview · 5s · $0.56. Macro butterfly-wing transformation, gold-foil seal blooms open. <em>Your quote: "I like the concept J-hf-bloom — Higgsfield · Garden Bloom (Unfurl)"</em></p>
+          </article>
+
+          <article class="v3-card v3-yesterday v3-develop" data-id="E-texture">
+            <video src="videos/v1-yesterday/E-texture.mp4" controls loop muted playsinline preload="metadata"></video>
+            <span class="v3-pillar v3-verdict v3-verdict-develop">Develop further</span>
+            <h3>E · The Texture</h3>
+            <p class="v3-card-cap"><b>Veo 3</b> · 5s · ~$4.00. Macro material film: foil → cocoa nibs → ribbon → velvet. <em>Your quote: "That's not even their fucking chocolate" — addressed today by switching to Higgsfield image2video on the truffle Shopify scene (above).</em></p>
+          </article>
+
+          <article class="v3-card v3-yesterday v3-develop" data-id="B-shake">
+            <video src="videos/v1-yesterday/B-shake.mp4" controls loop muted playsinline preload="metadata"></video>
+            <span class="v3-pillar v3-verdict v3-verdict-develop">Develop further</span>
+            <h3>B · The Shake</h3>
+            <p class="v3-card-cap"><b>Veo 3</b> · 6s · ~$5.00. Two-tap product shake, time slows, box rotates 180° midair. <em>Your quote: "develop further" — concept right, Vosges branding pending. Real re-render needs Replicate top-up.</em></p>
+          </article>
+
+          <article class="v3-card v3-yesterday v3-reject" data-id="G-pour">
+            <video src="videos/v1-yesterday/G-pour.mp4" controls loop muted playsinline preload="metadata"></video>
+            <span class="v3-pillar v3-verdict v3-verdict-reject">Reject</span>
+            <h3>G · The Pour</h3>
+            <p class="v3-card-cap"><b>Seedance 1 Pro</b> · 8s · ~$0.50. Ganache pour over branded card → into Vosges box. <em>Your quote: "is NOT EVEN finishing on the CUSTOMER Supposed box; it just loops to the begining? is that generating FOMO?"</em></p>
+          </article>
+
+          <article class="v3-card v3-yesterday v3-reject" data-id="I-hf-zoom">
+            <video src="videos/v1-yesterday/I-hf-zoom.mp4" controls loop muted playsinline preload="metadata"></video>
+            <span class="v3-pillar v3-verdict v3-verdict-reject">Reject</span>
+            <h3>I · Higgsfield Crash Zoom</h3>
+            <p class="v3-card-cap"><b>Higgsfield</b> · dop-turbo · 5s · $0.41. Crash zoom into gold-foil logo. <em>Your quote: "AI CRAP generated; not realistic, wrong logo placement"</em></p>
+          </article>
+
+          <article class="v3-card v3-yesterday v3-reject" data-id="H-hf-reveal">
+            <video src="videos/v1-yesterday/H-hf-reveal.mp4" controls loop muted playsinline preload="metadata"></video>
+            <span class="v3-pillar v3-verdict v3-verdict-reject">Reject</span>
+            <h3>H · Higgsfield Agent Reveal</h3>
+            <p class="v3-card-cap"><b>Higgsfield</b> · dop-preview · 5s · $0.56. Editorial reveal of closed box. <em>Your quote: "first video shows a whole different, wako logo instead of the one requested"</em></p>
+          </article>
+
+          <article class="v3-card v3-yesterday v3-noverdict" data-id="D-bite">
+            <video src="videos/v1-yesterday/D-bite.mp4" controls loop muted playsinline preload="metadata"></video>
+            <span class="v3-pillar v3-verdict v3-verdict-noverdict">No verdict captured</span>
+            <h3>D · The Bite</h3>
+            <p class="v3-card-cap"><b>Sora 2</b> · 6s · ~$4.50. Macro yummy reveal, truffle broken open over branded box. No explicit feedback found from yesterday's session.</p>
+          </article>
+
+          <article class="v3-card v3-yesterday v3-noverdict" data-id="K-hf-push">
+            <video src="videos/v1-yesterday/K-hf-push.mp4" controls loop muted playsinline preload="metadata"></video>
+            <span class="v3-pillar v3-verdict v3-verdict-noverdict">No verdict captured</span>
+            <h3>K · Higgsfield Push To Glass</h3>
+            <p class="v3-card-cap"><b>Higgsfield</b> · dop-preview · 5s · $0.56. Macro push onto truffle next to branded box. No explicit feedback found from yesterday's session.</p>
+          </article>
+
+          <article class="v3-card v3-yesterday v3-noverdict" data-id="A-reveal">
+            <div class="v3-not-rendered">Not rendered<br><small>Replicate balance / kling-v2.1-master timeout</small></div>
+            <span class="v3-pillar v3-verdict v3-verdict-noverdict">Not rendered</span>
+            <h3>A · The Reveal</h3>
+            <p class="v3-card-cap"><b>Kling 2.1 Master</b> · 10s · ~$1.40. Cinema-baseline orbit + push. Pending Replicate top-up.</p>
+          </article>
+
+          <article class="v3-card v3-yesterday v3-noverdict" data-id="C-unfurl">
+            <div class="v3-not-rendered">Not rendered<br><small>Replicate balance / runway gen4-turbo</small></div>
+            <span class="v3-pillar v3-verdict v3-verdict-noverdict">Not rendered</span>
+            <h3>C · The Unfurl</h3>
+            <p class="v3-card-cap"><b>Runway Gen4 Turbo</b> · 6s · ~$1.80. Macro transformation reveal. Pending Replicate top-up.</p>
+          </article>
+
+          <article class="v3-card v3-yesterday v3-noverdict" data-id="F-imagine">
+            <div class="v3-not-rendered">Not rendered<br><small>xAI key not provisioned</small></div>
+            <span class="v3-pillar v3-verdict v3-verdict-noverdict">Not rendered</span>
+            <h3>F · The Imagine</h3>
+            <p class="v3-card-cap"><b>Grok Imagine 2</b> · 5s · ~$4.00. Alchemic materialization. Pending xAI key.</p>
+          </article>
+
+        </div>
       </div>
     </section>
 
@@ -227,7 +328,7 @@
   <footer>
     <div class="container footer-row">
       <div class="cobrand">Vosges Haut-Chocolat<small>Powered by MBACIO</small></div>
-      <div>v3 reference run live · 5 sample brands · 3 concepts (Unfurl · Texture · Shake) from your 9-variant feedback</div>
+      <div>v3 reference run live · 5 sample brands · today's 3 + yesterday's 9-variant compare with your verdicts</div>
     </div>
   </footer>
 
