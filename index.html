@@ -49,15 +49,19 @@
     .samples{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
     .chip{cursor:pointer;font-size:.8rem;padding:6px 14px;border:1px solid var(--line);border-radius:999px;background:transparent;color:var(--gold-light);font-family:var(--sans);transition:all .2s}
     .chip:hover{background:rgba(197,160,89,0.1);border-color:var(--gold)}
+    .chip.active{background:var(--gold);color:var(--purple-deep);border-color:var(--gold);font-weight:500}
     /* Preview */
     .preview-card{position:relative}
-    .preview-frame{aspect-ratio:16/9;background:var(--purple-rich);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;align-items:center;justify-content:center;position:relative}
-    canvas{width:100%;height:100%;display:block;object-fit:cover}
+    .preview-frame{aspect-ratio:1/1;background:var(--purple-rich);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;align-items:center;justify-content:center;position:relative}
+    .preview-frame img.scene{width:100%;height:100%;display:block;object-fit:cover;transition:opacity .35s ease}
+    .preview-frame.loading img.scene{opacity:.35}
     .preview-status{position:absolute;bottom:14px;left:14px;background:rgba(0,0,0,0.65);backdrop-filter:blur(8px);padding:8px 14px;border-radius:999px;border:1px solid var(--line);font-size:.78rem;letter-spacing:.6px}
     .preview-status .dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--gold);margin-right:8px;vertical-align:middle;animation:pulse 1.6s infinite}
     @keyframes pulse{0%,100%{opacity:.5}50%{opacity:1}}
-    .preview-meta{margin-top:14px;display:flex;justify-content:space-between;align-items:center;font-size:.85rem;color:var(--mute)}
+    .preview-meta{margin-top:14px;display:flex;justify-content:space-between;align-items:center;font-size:.85rem;color:var(--mute);gap:10px;flex-wrap:wrap}
     .preview-meta b{color:var(--gold-light);font-weight:500}
+    .upcoming-banner{margin-top:10px;padding:10px 14px;border:1px solid var(--line);border-radius:8px;background:rgba(197,160,89,0.05);font-size:.78rem;color:var(--mute);line-height:1.5}
+    .upcoming-banner b{color:var(--gold-light);font-weight:500;letter-spacing:.5px}
     /* Variants */
     .variants{padding:80px 0;border-top:1px solid var(--line)}
     .variants-head{text-align:center;margin-bottom:48px}
@@ -77,7 +81,9 @@
     .v3-stat{padding:10px 14px;border:1px solid var(--line);border-radius:8px;font-size:.82rem;color:var(--mute)}
     .v3-stat b{color:var(--gold-light);font-weight:500;display:block;font-size:.72rem;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:3px}
     .v3-gallery{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;max-width:1200px;margin:0 auto}
-    @media (max-width:880px){.v3-gallery{grid-template-columns:1fr}}
+    .v3-gallery.v3-gallery-3{grid-template-columns:repeat(3,1fr);max-width:1320px}
+    @media (max-width:1040px){.v3-gallery.v3-gallery-3{grid-template-columns:repeat(2,1fr);max-width:880px}}
+    @media (max-width:880px){.v3-gallery,.v3-gallery.v3-gallery-3{grid-template-columns:1fr}}
     .v3-card{background:rgba(0,0,0,0.28);border:1px solid var(--line);border-radius:14px;padding:20px;display:flex;flex-direction:column}
     .v3-card video{width:100%;display:block;border-radius:8px;background:#000;aspect-ratio:16/9;object-fit:cover}
     .v3-card h3{font-family:var(--serif);font-weight:400;color:var(--gold);font-size:1.35rem;margin:16px 0 6px}
@@ -127,33 +133,28 @@
     <section class="capture container">
       <div class="capture-grid">
         <div class="form-card">
-          <div class="field">
-            <label for="company">Your brand</label>
-            <input type="text" id="company" placeholder="Anthropic" value="Netflix" autocomplete="off">
-            <p class="helper">Just the company name. We do the rest.</p>
+          <p class="helper" style="margin:0 0 18px;color:var(--gold-light);font-size:.92rem;line-height:1.55">Pick a sample brand. The Gemini scene-edit replaces every visible Vosges crest with that brand's logo in 24k-gold foil — on every box face and the hangtag — preserving the chocolate, ribbon, and lighting.</p>
+          <div class="samples" id="brand-chips">
+            <button type="button" class="chip active" data-slug="netflix" data-name="Netflix">Netflix</button>
+            <button type="button" class="chip" data-slug="apple" data-name="Apple">Apple</button>
+            <button type="button" class="chip" data-slug="microsoft" data-name="Microsoft">Microsoft</button>
+            <button type="button" class="chip" data-slug="google" data-name="Google">Google</button>
+            <button type="button" class="chip" data-slug="spotify" data-name="Spotify">Spotify</button>
           </div>
-          <div class="field">
-            <label for="domain">Or paste your website</label>
-            <input type="text" id="domain" placeholder="anthropic.com" value="netflix.com" autocomplete="off">
-            <p class="helper">We auto-extract your logo and emboss it in 24k-gold foil.</p>
-          </div>
-          <div class="samples">
-            <button type="button" class="chip" data-domain="netflix.com" data-name="Netflix">Netflix</button>
-            <button type="button" class="chip" data-domain="anthropic.com" data-name="Anthropic">Anthropic</button>
-            <button type="button" class="chip" data-domain="microsoft.com" data-name="Microsoft">Microsoft</button>
-            <button type="button" class="chip" data-domain="history.com" data-name="History Channel">History Channel</button>
-            <button type="button" class="chip" data-domain="apple.com" data-name="Apple">Apple</button>
+          <div class="upcoming-banner">
+            <b>Live regeneration</b><br>
+            Typing an arbitrary brand fires the live n8n pipeline (Gemini scene-edit → Higgsfield motion) — wired in the next phase. The 5 samples above are pre-baked reference outputs from the live pipeline.
           </div>
         </div>
 
         <div class="preview-card">
-          <div class="preview-frame">
-            <canvas id="preview" width="1280" height="720"></canvas>
-            <div class="preview-status" id="status"><span class="dot"></span><span id="status-text">Live preview</span></div>
+          <div class="preview-frame" id="preview-frame">
+            <img class="scene" id="scene-img" src="images/v3/scene-very-berry-netflix.jpg" alt="Vosges Very Berry tower with the customer brand logo gold-foil-embossed on every visible box face and the hangtag">
+            <div class="preview-status" id="status"><span class="dot"></span><span id="status-text">Netflix · live scene-edit</span></div>
           </div>
           <div class="preview-meta">
-            <div>Composite of <b id="meta-brand">Netflix</b> on Vosges purple-box collection</div>
-            <div>1280 × 720 · gold-foil embossed</div>
+            <div><b id="meta-brand">Netflix</b> on the Vosges Very Berry tower</div>
+            <div>Gemini 2.5 Flash Image · ~12s · ~$0.04</div>
           </div>
         </div>
       </div>
@@ -162,8 +163,8 @@
     <section id="variants" class="variants">
       <div class="container">
         <div class="variants-head">
-          <h2>See it in motion</h2>
-          <p>Real v3 reference run: <b>Netflix</b> on the Vosges <b>Very Berry Cake &amp; Chocolate Tower</b>. Gemini 2.5 Flash Image scene-edit → Higgsfield DoP, four cinematic motion concepts. Logo region pixel-stable across every frame.</p>
+          <h2>The three concepts</h2>
+          <p>From yesterday's 9-variant compare, three motion concepts to develop further: <b>The Unfurl</b> (Garden Bloom — transformation), <b>The Texture</b> (macro material study), <b>The Shake</b> (FOMO impact). Same Gemini-edited Vosges scene drives all three — the chocolate, ribbon, and box stay pixel-stable; only the camera moves.</p>
           <div class="pillars">
             <div class="pill">Consistent</div>
             <div class="pill">Realistic</div>
@@ -172,56 +173,28 @@
           </div>
         </div>
 
-        <div class="v3-hero">
-          <div class="v3-scene">
-            <span class="v3-eyebrow">Stage 3 · scene-edit</span>
-            <img src="images/v3/scene-very-berry-netflix.jpg" alt="Vosges Very Berry tower with NETFLIX wordmark gold-foil-embossed">
-          </div>
-          <div class="v3-hero-copy">
-            <span class="v3-eyebrow">One scene · four motions</span>
-            <h3>Gemini 2.5 Flash Image edits the still. Higgsfield animates it four ways.</h3>
-            <p class="v3-caption">A single $0.04 Gemini call replaces every visible Vosges branding surface with the customer wordmark in 24k-gold foil emboss. The same edited still then drives <b>four parallel cinematic motion concepts</b> — bloom, reveal, push-to-glass, crash-zoom — so the buyer gets to feel the box from four angles before they pick a finish.</p>
-            <div class="v3-stat-row">
-              <div class="v3-stat"><b>Scene edit</b>$0.04 · ~12s</div>
-              <div class="v3-stat"><b>Per motion</b>$0.56 · ~110s</div>
-              <div class="v3-stat"><b>Production cost / customer</b>$0.60 (1 motion)</div>
-              <div class="v3-stat"><b>This A/B/C/D set</b>$2.28</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="v3-gallery" id="v3-gallery">
+        <div class="v3-gallery v3-gallery-3" id="v3-gallery">
           <div class="v3-card" data-shot="bloom">
             <video src="videos/v3/bloom.mp4" poster="images/v3/scene-very-berry-netflix.jpg" controls loop muted playsinline preload="metadata"></video>
             <span class="v3-pillar">Transformation</span>
-            <h3>The Bloom</h3>
-            <p class="v3-card-cap">Garden Bloom motion. Gold-dust particles bloom outward; the embossed NETFLIX wordmark stays pixel-stable across every frame. The cleanest "magic moment" for the wizard's right-rail loop.</p>
-            <div class="v3-card-meta">Higgsfield · Garden Bloom · str 0.35 · 5s · $0.56</div>
-          </div>
-          <div class="v3-card" data-shot="reveal">
-            <video src="videos/v3/reveal.mp4" poster="images/v3/scene-very-berry-netflix.jpg" controls loop muted playsinline preload="metadata"></video>
-            <span class="v3-pillar">Editorial</span>
-            <h3>The Reveal</h3>
-            <p class="v3-card-cap">Agent Reveal motion — slow ¾ orbit reveals the closed gift box; cream satin ribbon flutters, gold foil catches a single warm specular highlight. Hermès / Vogue energy.</p>
-            <div class="v3-card-meta">Higgsfield · Agent Reveal · str 0.35 · 5s · $0.56</div>
+            <h3>The Unfurl</h3>
+            <p class="v3-card-cap">Higgsfield's Garden Bloom motion. Gold-dust particles unfurl outward from the lid; the embossed NETFLIX wordmark stays pixel-stable across every face. This is the concept you flagged from yesterday's 9-variant compare as the one to develop.</p>
           </div>
           <div class="v3-card" data-shot="push-glass">
             <video src="videos/v3/push-glass.mp4" poster="images/v3/scene-very-berry-netflix.jpg" controls loop muted playsinline preload="metadata"></video>
-            <span class="v3-pillar">Texture</span>
-            <h3>The Push-In</h3>
-            <p class="v3-card-cap">Push-To-Glass motion — extreme macro glide onto the gold-foil wordmark until the foil grain fills the frame. Aesop / Hermès material study.</p>
-            <div class="v3-card-meta">Higgsfield · Push To Glass · str 0.40 · 5s · $0.56</div>
+            <span class="v3-pillar">Material study</span>
+            <h3>The Texture</h3>
+            <p class="v3-card-cap">Higgsfield's Push-To-Glass motion — extreme macro glide along the gold-foil wordmark until the foil grain fills the frame. Image-to-video means the chocolate stays Vosges chocolate; no hallucinated material like the v1 Veo Texture cut.</p>
           </div>
           <div class="v3-card" data-shot="crash-zoom">
             <video src="videos/v3/crash-zoom.mp4" poster="images/v3/scene-very-berry-netflix.jpg" controls loop muted playsinline preload="metadata"></video>
-            <span class="v3-pillar">FOMO</span>
-            <h3>The Snap</h3>
-            <p class="v3-card-cap">Crash Zoom In — the lens snaps from establishing wide to a tight macro on the foil and holds. Decisive product-commercial energy for the close-the-deal moment.</p>
-            <div class="v3-card-meta">Higgsfield · Crash Zoom In · str 0.50 · 5s · $0.56</div>
+            <span class="v3-pillar">FOMO impact</span>
+            <h3>The Shake</h3>
+            <p class="v3-card-cap">Higgsfield's Crash Zoom In — decisive snap from wide to a tight macro on the foil. Closest stand-in for the v1 Veo Shake until Replicate is topped up so we can render the true two-tap viral product-shake variant.</p>
           </div>
         </div>
 
-        <p class="v3-foot">Production cost per customer is <b>$0.60</b> — one Gemini scene-edit plus one chosen motion. The four cards above are the live A/B/C/D to pick the winning motion before that wires into the wizard.</p>
+        <p class="v3-foot">Yesterday's full 9-variant compare lives in the engine repo at <code style="font-family:'DM Sans',monospace;font-size:.82em;color:var(--gold-light)">.planning/variants/2026-05-06/index.html</code>. The three above are the survivors.</p>
       </div>
     </section>
 
@@ -254,199 +227,48 @@
   <footer>
     <div class="container footer-row">
       <div class="cobrand">Vosges Haut-Chocolat<small>Powered by MBACIO</small></div>
-      <div>v3 reference run live · Vosges × Netflix · 4-motion bake-off · $0.60/customer · four pillars enforced</div>
+      <div>v3 reference run live · 5 sample brands · 3 concepts (Unfurl · Texture · Shake) from your 9-variant feedback</div>
     </div>
   </footer>
 
   <script>
-    // ---------- Live composite preview ----------
-    const canvas = document.getElementById('preview');
-    const ctx = canvas.getContext('2d');
-    const W = canvas.width, H = canvas.height;
-    const VOSGES_GOLD = { r: 197, g: 160, b: 89 };
+    // Sample brands → pre-baked Gemini scene-edit (every box face + hangtag
+    // gets the customer logo in 24k-gold foil). No client-side compositing —
+    // the canvas approach only stamped one favicon onto one box and left
+    // every other Vosges crest visible. This is the real magic-moment.
+    const sceneFor = (slug) => `images/v3/scene-very-berry-${slug}.jpg`;
 
-    // Vosges box image — Shopify CDN, CORS-friendly for canvas drawing.
-    const BOX_URL = 'https://cdn.shopify.com/s/files/1/0012/8660/2848/products/Classic-Parcel_Product-Shot.jpg?v=1673293533';
-
-    // Logo placement (% of canvas) — front face of central purple box.
-    const LOGO_BOX = { x: 0.41, y: 0.47, w: 0.18, h: 0.18 };
-
-    let boxImg = null;
-    let pending = null;
-    let lastDomain = null;
-
-    function loadImage(src, crossOrigin = 'anonymous') {
-      return new Promise((res, rej) => {
-        const img = new Image();
-        if (crossOrigin) img.crossOrigin = crossOrigin;
-        img.onload = () => res(img);
-        img.onerror = () => rej(new Error('image load: ' + src));
-        img.src = src;
-      });
-    }
-
-    function tintGold(img, w, h) {
-      const off = document.createElement('canvas');
-      off.width = w; off.height = h;
-      const o = off.getContext('2d');
-      o.drawImage(img, 0, 0, w, h);
-      const px = o.getImageData(0, 0, w, h);
-      const d = px.data;
-      for (let i = 0; i < d.length; i += 4) {
-        if (d[i + 3] > 10) {
-          const lum = (d[i] + d[i + 1] + d[i + 2]) / 3 / 255;
-          const blend = 1 - lum * 0.45;
-          d[i] = Math.round(VOSGES_GOLD.r * blend + d[i] * (1 - blend) * 0.2);
-          d[i + 1] = Math.round(VOSGES_GOLD.g * blend + d[i + 1] * (1 - blend) * 0.2);
-          d[i + 2] = Math.round(VOSGES_GOLD.b * blend + d[i + 2] * (1 - blend) * 0.2);
-        }
-      }
-      o.putImageData(px, 0, 0);
-      return off;
-    }
-
-    function drawBox() {
-      if (!boxImg) return;
-      // cover-fit the square Vosges photo into 16:9
-      const ar = boxImg.width / boxImg.height;
-      const targetAr = W / H;
-      let sx = 0, sy = 0, sw = boxImg.width, sh = boxImg.height;
-      if (ar > targetAr) {
-        sw = boxImg.height * targetAr;
-        sx = (boxImg.width - sw) / 2;
-      } else {
-        sh = boxImg.width / targetAr;
-        sy = (boxImg.height - sh) / 2;
-      }
-      ctx.drawImage(boxImg, sx, sy, sw, sh, 0, 0, W, H);
-    }
-
-    function drawPlaceholder(brand) {
-      ctx.fillStyle = '#1a0f1c';
-      ctx.fillRect(0, 0, W, H);
-      ctx.fillStyle = '#c5a059';
-      ctx.font = 'italic 300 64px "Cormorant Garamond", serif';
-      ctx.textAlign = 'center';
-      ctx.fillText(brand || 'Your brand', W / 2, H / 2);
-      ctx.font = '300 18px "DM Sans", sans-serif';
-      ctx.fillStyle = 'rgba(248,245,240,0.45)';
-      ctx.fillText('paste your website to see the magic', W / 2, H / 2 + 40);
-    }
-
-    async function compositeWith(domain) {
-      const status = document.getElementById('status-text');
-      try {
-        if (!boxImg) boxImg = await loadImage(BOX_URL);
-        drawBox();
-
-        if (!domain) { status.textContent = 'Live preview · paste website above'; return; }
-
-        status.textContent = 'fetching logo…';
-        // Logo fallback chain — Clearbit fails on many domains. Try multiple
-        // sources in order until one returns a usable transparent PNG.
-        const logoSources = [
-          `https://logo.clearbit.com/${encodeURIComponent(domain)}`,
-          `https://img.logo.dev/${encodeURIComponent(domain)}?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ`, // public-key demo token
-          `https://www.google.com/s2/favicons?domain=${encodeURIComponent(domain)}&sz=256`,
-        ];
-        let logoImg = null;
-        let triedSources = 0;
-        for (const src of logoSources) {
-          triedSources++;
-          try {
-            logoImg = await loadImage(src);
-            if (logoImg) break;
-          } catch {
-            // try next source
-          }
-        }
-        if (!logoImg) {
-          status.textContent = 'logo unavailable for ' + domain + ' — try another or upload one';
-          drawPlaceholder(document.getElementById('company').value);
-          return;
-        }
-
-        // Compute target placement box
-        const bx = Math.round(LOGO_BOX.x * W);
-        const by = Math.round(LOGO_BOX.y * H);
-        const bw = Math.round(LOGO_BOX.w * W);
-        const bh = Math.round(LOGO_BOX.h * H);
-
-        // Fit logo inside placement, preserving aspect ratio
-        const logoAr = logoImg.width / logoImg.height;
-        const boxAr = bw / bh;
-        let drawW, drawH;
-        if (logoAr > boxAr) {
-          drawW = bw;
-          drawH = bw / logoAr;
-        } else {
-          drawH = bh;
-          drawW = bh * logoAr;
-        }
-
-        // Tint logo gold
-        const tinted = tintGold(logoImg, Math.round(drawW), Math.round(drawH));
-
-        // Center within placement box
-        const dx = bx + Math.round((bw - drawW) / 2);
-        const dy = by + Math.round((bh - drawH) / 2);
-
-        // Subtle drop-shadow to read as foil emboss
-        ctx.save();
-        ctx.shadowColor = 'rgba(0,0,0,0.55)';
-        ctx.shadowBlur = 12;
-        ctx.shadowOffsetY = 2;
-        ctx.drawImage(tinted, dx, dy);
-        ctx.restore();
-
-        status.textContent = '✓ live preview · ' + domain;
-      } catch (e) {
-        console.warn(e);
-        status.textContent = 'logo unavailable for that domain — try another';
-        drawPlaceholder(document.getElementById('company').value);
-      }
-    }
-
-    function debounce(fn, ms) {
-      let t;
-      return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), ms); };
-    }
-
-    const debouncedComposite = debounce(compositeWith, 380);
-
-    // Inputs
-    const companyInput = document.getElementById('company');
-    const domainInput = document.getElementById('domain');
+    const sceneImg = document.getElementById('scene-img');
+    const previewFrame = document.getElementById('preview-frame');
+    const statusText = document.getElementById('status-text');
     const metaBrand = document.getElementById('meta-brand');
+    const chips = document.querySelectorAll('#brand-chips .chip');
 
-    function updateBrandLabel() { metaBrand.textContent = companyInput.value || 'Your brand'; }
-
-    function update() {
-      updateBrandLabel();
-      const d = domainInput.value.trim().replace(/^https?:\/\//, '').replace(/\/.*$/, '');
-      if (d && d.includes('.') && d !== lastDomain) {
-        lastDomain = d;
-        debouncedComposite(d);
-      } else if (!d) {
-        lastDomain = null;
-        if (boxImg) drawBox();
-      }
+    function setBrand(slug, name) {
+      previewFrame.classList.add('loading');
+      const next = sceneFor(slug);
+      const probe = new Image();
+      probe.onload = () => {
+        sceneImg.src = next;
+        sceneImg.alt = `Vosges Very Berry tower with the ${name} logo gold-foil-embossed on every visible box face and the hangtag`;
+        statusText.textContent = `${name} · live scene-edit`;
+        metaBrand.textContent = name;
+        previewFrame.classList.remove('loading');
+      };
+      probe.onerror = () => {
+        statusText.textContent = `scene unavailable for ${name}`;
+        previewFrame.classList.remove('loading');
+      };
+      probe.src = next;
     }
 
-    companyInput.addEventListener('input', update);
-    domainInput.addEventListener('input', update);
-
-    document.querySelectorAll('.chip').forEach((b) => {
+    chips.forEach((b) => {
       b.addEventListener('click', () => {
-        companyInput.value = b.dataset.name;
-        domainInput.value = b.dataset.domain;
-        update();
+        chips.forEach((x) => x.classList.remove('active'));
+        b.classList.add('active');
+        setBrand(b.dataset.slug, b.dataset.name);
       });
     });
-
-    // Initial render
-    drawPlaceholder('Netflix');
-    update();
   </script>
 </body>
 </html>
