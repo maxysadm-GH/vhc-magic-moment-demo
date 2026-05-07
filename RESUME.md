@@ -1,97 +1,65 @@
-# Resume — Magic Moment v3 (LIVE, 4-motion)
+# Resume — Magic Moment v4 (PICK UP TOMORROW FROM THE OFFICE)
 
-**Last session:** 2026-05-07
+**Last session:** 2026-05-07 (evening, M51) — saved + pushed
 **Live demo:** https://maxysadm-gh.github.io/vhc-magic-moment-demo/
 
 ---
 
-## What's LIVE right now
+## First thing tomorrow morning
 
-The demo shows a **4-motion Netflix bake-off** end-to-end:
+1. **Top up Replicate** at https://replicate.com/account/billing (~$25–$50)
+2. **Read the v4 plan**: `mbacio-gift-customizer/.planning/RESUME-2026-05-08.md`
+   - Full audit of what was stripped over the past 2 days (logo upload, product picker, ribbon/foil/card variations, etc.)
+   - The 12 cinematic concepts × 5-brand variants Max asked for
+   - Budget breakdown ($50 ceiling, ~$48 spend after trim)
+   - Restored UI features (logo upload via `LogoCapture.tsx`, product picker via `ProductPicker.tsx`)
+3. **Greenlight or edit the 12 concepts** in the plan
+4. **Then ~5 hours of render + ship** before tomorrow's presentation:
+   - 12 hero cinematics (Netflix flagship across all concepts) via Kling 3.0 omni
+   - 5-brand showcase of 1 winning concept
+   - Restore logo upload + product picker on the demo
+   - Playwright self-QA + ffmpeg per-frame audit before reporting done
 
-| Stage | Asset | Cost | Status |
-|---|---|---|---|
-| 3 — Gemini scene-edit | `images/v3/scene-very-berry-netflix.jpg` | $0.04 | live (1.1MB JPG, every Vosges branding surface replaced with NETFLIX wordmark in 24k-gold foil emboss) |
-| 5a — Higgsfield Garden Bloom | `videos/v3/bloom.mp4` | $0.56 | live |
-| 5b — Higgsfield Agent Reveal | `videos/v3/reveal.mp4` | $0.56 | live |
-| 5c — Higgsfield Push To Glass | `videos/v3/push-glass.mp4` | $0.56 | live |
-| 5d — Higgsfield Crash Zoom In | `videos/v3/crash-zoom.mp4` | $0.56 | live |
-| | **A/B/C/D bake-off total** | **$2.28** | |
-| | **Production cost / customer** | **$0.60** (1 motion) | |
+## What's currently on the live demo
 
-The page now shows the scene + a 2×2 cinematic gallery side-by-side. Footer reflects the real cost. **No fabricated numbers.**
+- **25-sec luxury cinematic hero** (commit `ef7be7c`): 5 hard cuts on the 9-PC truffle Vosges scene with NETFLIX gold-foil. Rejected by Max as "shaking, not multi-angle" — fundamental Ken Burns / Higgsfield image2video tool wall.
+- **Today's 3 concept cards** (Unfurl bloom, Texture Tilt-Down, Texture Push-To-Glass — Ken Burns)
+- **Yesterday's 9-variant compare** with verdict chips (green / gold / red / gray)
+- **5 sample brand chip-driven scene preview** (Netflix, Apple, Microsoft, Google, Spotify)
 
-## Reference run (this session)
+## What's been stripped from the original v1 spec (need restoration)
 
-- Product: `very-berry-cake-and-chocolate-tower`
-- Brand: `Netflix` (NETFLIX wordmark, recognizable)
-- Output dir: `mbacio-gift-customizer/.planning/variants/2026-05-07-v3/very-berry-cake-and-chocolate-tower__netflix/`
-- Artifacts: `scene.jpg`, `bloom.mp4`, `reveal.mp4`, `push-glass.mp4`, `crash-zoom.mp4`, `hf-bakeoff-manifest.json`
+- Logo upload form (file picker + drag-drop)
+- Brand name + domain text input with Clearbit/Brandfetch/Logo.dev fallback
+- Product picker grid (31 Vosges Shopify products)
+- Ribbon/foil/marker-card variations driving the cinematic
+- n8n live regeneration pipeline (currently still on dead Catbox+Higgsfield path)
 
-## Run commands
+## Why we kept failing for 2 days (root cause)
 
-Generate scene:
+**Replicate has been at 402 the entire time** and I kept routing around it with Higgsfield + Ken Burns. Higgsfield is generative (truffles morph). Ken Burns is camera-on-still (looks like shaking). Real luxury car-reveal cinematics need Veo 3 / Sora 2 / Kling 3.0 omni — all on Replicate. **Top-up is the work.**
+
+## Spend ledger
+
+- Round 1 + 2 (yesterday): ~$19
+- Round 3 (today's iterations): ~$4.50
+- **Total spent: ~$23.50**
+- Budget bump for tomorrow: **$30 → $50 ceiling**
+- ~$48 of that earmarked for the v4 deliverable
+
+## Repos + commits
+
+- Demo: https://github.com/maxysadm-GH/vhc-magic-moment-demo — `main` at `ef7be7c`
+- Engine: https://github.com/maxysadm-GH/mbacio-gift-customizer (private) — `main` at `d277f9b`
+- v4 plan: `mbacio-gift-customizer/.planning/RESUME-2026-05-08.md`
+- Concept locks: `mbacio-gift-customizer/.planning/concept-locks.json`
+
+## Tomorrow's first command from the office
+
 ```
-cd mbacio-gift-customizer
-npx tsx scripts/scene-edit-pipeline.ts \
-  --product=very-berry-cake-and-chocolate-tower \
-  --brand="Netflix" \
-  --logo-file=.planning/netflix-logo.png \
-  --model=kling --force-video
-```
-(`--model=kling` is intentional — Replicate is at 402; the call fails after the
-Gemini scene-edit lands `scene.jpg`. We pivot to Higgsfield for video.)
-
-4-motion bake-off (parallel):
-```
-SCENE_URL=https://raw.githubusercontent.com/maxysadm-GH/vhc-magic-moment-demo/main/images/v3/scene-very-berry-netflix.jpg \
-BRAND=Netflix \
-npx tsx scripts/hf-bakeoff-from-scene.ts
+cd ~/Projects/mbacio-gift-customizer
+git pull
+cat .planning/RESUME-2026-05-08.md
 ```
 
-Single-motion retry:
-```
-SHOTS_FILTER=bloom npx tsx scripts/hf-bakeoff-from-scene.ts
-```
-
-QA the live demo:
-```
-NODE_PATH="$(cygpath -w "$(pwd)/../mbacio-gift-customizer/node_modules")" \
-  node scripts/qa-live-demo.mjs
-```
-
-## What worked / what didn't (this session)
-
-| Attempt | Outcome |
-|---|---|
-| Clearbit `logo.clearbit.com/netflix.com` | DNS ENOTFOUND on Windows (transient) |
-| Wikipedia thumbnail PNG | 400/429 — wikimedia thumb steps deprecated |
-| icons8 `img.icons8.com/color/512/netflix.png` | 200 OK, used as logo source |
-| Gemini scene-edit (Netflix wordmark) | first try, ~12s, 1.1MB JPG |
-| Higgsfield Garden Bloom | timed out at 8min in parallel run; retried single-shot |
-| Higgsfield Agent Reveal | 119s, 12.5MB |
-| Higgsfield Push To Glass | 336s, 11.9MB |
-| Higgsfield Crash Zoom In | 384s, 6.5MB |
-
-## Spend ledger (entire project)
-
-- Round 1 (single-shot model bake-off): $19.20 — bad outputs, deleted
-- v3 reference run (History Channel, prior session): $0.60
-- v3 Netflix 4-motion bake-off (this session): ~$2.28
-- **Total: ~$22.08 of $30 ceiling**, ~$7.92 headroom
-
-## Next moves
-
-1. Wire n8n to call the live pipeline (Gemini → Higgsfield) on demo button click
-2. Replace customizer's `AiHeroReveal` with the v3 pipeline
-3. Generate 4 more products to populate gallery (1 per archetype × $0.60 = $2.40)
-4. Top up Replicate to add Kling 3.0 omni multi-shot for true 5-cuts-in-one-call
-5. Once live pipeline is wired, fold the GH Pages demo back to a single chosen motion (drop the bake-off gallery to one cinematic loop)
-
-## Self-QA standing rule
-
-Every web deliverable must be hit with Playwright/Puppeteer/browser-MCP before
-reporting done. See `~/.claude/projects/C--Users-maxys/memory/feedback_self-qa-via-browser-control.md`.
-QA script lives at `scripts/qa-live-demo.mjs`. It checks page status, scene
-image dimensions, all 4 video HEAD + duration, drives the form, screenshots
-the gallery, and emits a PASS/FAIL.
+Ready when Replicate is funded.
