@@ -64,18 +64,29 @@
     .variants-head p{color:var(--mute);max-width:64ch;margin:1em auto 0}
     .pillars{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-top:18px;font-family:var(--serif);font-style:italic;color:var(--gold);font-size:1rem}
     .pillars .pill{padding:4px 12px;border:1px solid var(--line);border-radius:999px}
-    .v3-result{display:grid;grid-template-columns:1fr 1.4fr;gap:32px;align-items:start;max-width:1200px;margin:0 auto}
-    @media (max-width:880px){.v3-result{grid-template-columns:1fr}}
-    .v3-scene,.v3-video{background:rgba(0,0,0,0.28);border:1px solid var(--line);border-radius:14px;padding:24px}
-    .v3-scene img,.v3-video video{width:100%;display:block;border-radius:8px;background:#000}
+    .v3-hero{display:grid;grid-template-columns:1fr 1.2fr;gap:32px;align-items:start;max-width:1200px;margin:0 auto 56px}
+    @media (max-width:880px){.v3-hero{grid-template-columns:1fr}}
+    .v3-scene{background:rgba(0,0,0,0.28);border:1px solid var(--line);border-radius:14px;padding:24px}
+    .v3-scene img{width:100%;display:block;border-radius:8px;background:#1a0f1c;aspect-ratio:1/1;object-fit:contain}
     .v3-eyebrow{font-size:.7rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:12px}
-    .v3-scene img{aspect-ratio:1/1;object-fit:contain;background:#1a0f1c}
-    .v3-video video{aspect-ratio:16/9;object-fit:cover}
-    .v3-video h3{font-family:var(--serif);font-weight:400;color:var(--gold);font-size:1.55rem;margin:14px 0 8px}
-    .v3-caption{color:var(--mute);font-size:.92rem;line-height:1.55;margin:14px 0 0}
+    .v3-hero-copy{padding:8px 0}
+    .v3-hero-copy h3{font-family:var(--serif);font-weight:400;color:var(--gold);font-size:1.7rem;margin:14px 0 12px}
+    .v3-caption{color:var(--mute);font-size:.95rem;line-height:1.6;margin:0 0 14px}
     .v3-caption b{color:var(--gold-light);font-weight:500}
-    .v3-meta{margin-top:14px;font-size:.78rem;color:var(--mute);font-family:var(--sans);letter-spacing:.4px;border-top:1px solid var(--line);padding-top:14px}
-    .v3-foot{margin-top:36px;text-align:center;color:var(--gold-light);font-size:.92rem;font-style:italic;font-family:var(--serif)}
+    .v3-stat-row{display:flex;gap:14px;flex-wrap:wrap;margin-top:18px}
+    .v3-stat{padding:10px 14px;border:1px solid var(--line);border-radius:8px;font-size:.82rem;color:var(--mute)}
+    .v3-stat b{color:var(--gold-light);font-weight:500;display:block;font-size:.72rem;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:3px}
+    .v3-gallery{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;max-width:1200px;margin:0 auto}
+    @media (max-width:880px){.v3-gallery{grid-template-columns:1fr}}
+    .v3-card{background:rgba(0,0,0,0.28);border:1px solid var(--line);border-radius:14px;padding:20px;display:flex;flex-direction:column}
+    .v3-card video{width:100%;display:block;border-radius:8px;background:#000;aspect-ratio:16/9;object-fit:cover}
+    .v3-card h3{font-family:var(--serif);font-weight:400;color:var(--gold);font-size:1.35rem;margin:16px 0 6px}
+    .v3-card .v3-pillar{font-size:.7rem;letter-spacing:2px;text-transform:uppercase;color:var(--gold-light);font-weight:500}
+    .v3-card .v3-card-cap{color:var(--mute);font-size:.88rem;line-height:1.55;margin:10px 0 0}
+    .v3-card .v3-card-meta{margin-top:auto;padding-top:14px;font-size:.74rem;color:var(--mute);letter-spacing:.4px;border-top:1px solid var(--line);margin-top:14px;padding-top:12px}
+    .v3-card.v3-failed video{filter:grayscale(1) opacity(.35)}
+    .v3-card.v3-failed .v3-card-cap{color:var(--mute);font-style:italic}
+    .v3-foot{margin-top:48px;text-align:center;color:var(--gold-light);font-size:.95rem;font-style:italic;font-family:var(--serif)}
     .v3-foot b{font-style:normal;color:var(--gold)}
     /* Wizard preview */
     .wizard{padding:80px 0;border-top:1px solid var(--line)}
@@ -118,19 +129,19 @@
         <div class="form-card">
           <div class="field">
             <label for="company">Your brand</label>
-            <input type="text" id="company" placeholder="Anthropic" value="History Channel" autocomplete="off">
+            <input type="text" id="company" placeholder="Anthropic" value="Netflix" autocomplete="off">
             <p class="helper">Just the company name. We do the rest.</p>
           </div>
           <div class="field">
             <label for="domain">Or paste your website</label>
-            <input type="text" id="domain" placeholder="anthropic.com" value="history.com" autocomplete="off">
+            <input type="text" id="domain" placeholder="anthropic.com" value="netflix.com" autocomplete="off">
             <p class="helper">We auto-extract your logo and emboss it in 24k-gold foil.</p>
           </div>
           <div class="samples">
-            <button type="button" class="chip" data-domain="history.com" data-name="History Channel">History Channel</button>
+            <button type="button" class="chip" data-domain="netflix.com" data-name="Netflix">Netflix</button>
             <button type="button" class="chip" data-domain="anthropic.com" data-name="Anthropic">Anthropic</button>
             <button type="button" class="chip" data-domain="microsoft.com" data-name="Microsoft">Microsoft</button>
-            <button type="button" class="chip" data-domain="netflix.com" data-name="Netflix">Netflix</button>
+            <button type="button" class="chip" data-domain="history.com" data-name="History Channel">History Channel</button>
             <button type="button" class="chip" data-domain="apple.com" data-name="Apple">Apple</button>
           </div>
         </div>
@@ -141,7 +152,7 @@
             <div class="preview-status" id="status"><span class="dot"></span><span id="status-text">Live preview</span></div>
           </div>
           <div class="preview-meta">
-            <div>Composite of <b id="meta-brand">History Channel</b> on Vosges purple-box collection</div>
+            <div>Composite of <b id="meta-brand">Netflix</b> on Vosges purple-box collection</div>
             <div>1280 × 720 · gold-foil embossed</div>
           </div>
         </div>
@@ -152,7 +163,7 @@
       <div class="container">
         <div class="variants-head">
           <h2>See it in motion</h2>
-          <p>Real v3 reference run: <b>History Channel</b> on the Vosges <b>Very Berry Cake &amp; Chocolate Tower</b>. Gemini 2.5 Flash Image scene-edit → Higgsfield DoP cinematic motion. Logo region pixel-stable across every frame.</p>
+          <p>Real v3 reference run: <b>Netflix</b> on the Vosges <b>Very Berry Cake &amp; Chocolate Tower</b>. Gemini 2.5 Flash Image scene-edit → Higgsfield DoP, four cinematic motion concepts. Logo region pixel-stable across every frame.</p>
           <div class="pillars">
             <div class="pill">Consistent</div>
             <div class="pill">Realistic</div>
@@ -161,22 +172,56 @@
           </div>
         </div>
 
-        <div class="v3-result">
+        <div class="v3-hero">
           <div class="v3-scene">
             <span class="v3-eyebrow">Stage 3 · scene-edit</span>
-            <img src="images/v3/scene-very-berry-history.jpg" alt="Vosges Very Berry tower with History Channel H gold-foil-embossed">
-            <p class="v3-caption">One Gemini 2.5 Flash Image call — every visible Vosges branding surface replaced with the History Channel "H" in 24k-gold foil emboss. ~$0.04, ~10s.</p>
+            <img src="images/v3/scene-very-berry-netflix.jpg" alt="Vosges Very Berry tower with NETFLIX wordmark gold-foil-embossed">
           </div>
-          <div class="v3-video">
-            <span class="v3-eyebrow">Stage 5 · cinematic motion</span>
-            <video src="videos/v3/bloom.mp4" controls loop muted playsinline preload="metadata"></video>
-            <h3>The Unfurl · Garden Bloom motion</h3>
-            <p class="v3-caption">Higgsfield DoP-preview, motion strength 0.35 — gold-dust particles bloom outward, the embossed History Channel logo on the box stays pixel-stable across every frame. <b>This is the magic moment that fires the moment a corporate buyer captures their brand.</b></p>
-            <div class="v3-meta">Higgsfield · DoP-preview · Garden Bloom · 5s · $0.56 · 113s wall time</div>
+          <div class="v3-hero-copy">
+            <span class="v3-eyebrow">One scene · four motions</span>
+            <h3>Gemini 2.5 Flash Image edits the still. Higgsfield animates it four ways.</h3>
+            <p class="v3-caption">A single $0.04 Gemini call replaces every visible Vosges branding surface with the customer wordmark in 24k-gold foil emboss. The same edited still then drives <b>four parallel cinematic motion concepts</b> — bloom, reveal, push-to-glass, crash-zoom — so the buyer gets to feel the box from four angles before they pick a finish.</p>
+            <div class="v3-stat-row">
+              <div class="v3-stat"><b>Scene edit</b>$0.04 · ~12s</div>
+              <div class="v3-stat"><b>Per motion</b>$0.56 · ~110s</div>
+              <div class="v3-stat"><b>Production cost / customer</b>$0.60 (1 motion)</div>
+              <div class="v3-stat"><b>This A/B/C/D set</b>$2.28</div>
+            </div>
           </div>
         </div>
 
-        <p class="v3-foot">Pipeline cost per customer: <b>~$0.60</b> (Gemini scene-edit + 1 Higgsfield motion). Three more motion presets queued — additional shots will appear here as they complete.</p>
+        <div class="v3-gallery" id="v3-gallery">
+          <div class="v3-card" data-shot="bloom">
+            <video src="videos/v3/bloom.mp4" poster="images/v3/scene-very-berry-netflix.jpg" controls loop muted playsinline preload="metadata"></video>
+            <span class="v3-pillar">Transformation</span>
+            <h3>The Bloom</h3>
+            <p class="v3-card-cap">Garden Bloom motion. Gold-dust particles bloom outward; the embossed NETFLIX wordmark stays pixel-stable across every frame. The cleanest "magic moment" for the wizard's right-rail loop.</p>
+            <div class="v3-card-meta">Higgsfield · Garden Bloom · str 0.35 · 5s · $0.56</div>
+          </div>
+          <div class="v3-card" data-shot="reveal">
+            <video src="videos/v3/reveal.mp4" poster="images/v3/scene-very-berry-netflix.jpg" controls loop muted playsinline preload="metadata"></video>
+            <span class="v3-pillar">Editorial</span>
+            <h3>The Reveal</h3>
+            <p class="v3-card-cap">Agent Reveal motion — slow ¾ orbit reveals the closed gift box; cream satin ribbon flutters, gold foil catches a single warm specular highlight. Hermès / Vogue energy.</p>
+            <div class="v3-card-meta">Higgsfield · Agent Reveal · str 0.35 · 5s · $0.56</div>
+          </div>
+          <div class="v3-card" data-shot="push-glass">
+            <video src="videos/v3/push-glass.mp4" poster="images/v3/scene-very-berry-netflix.jpg" controls loop muted playsinline preload="metadata"></video>
+            <span class="v3-pillar">Texture</span>
+            <h3>The Push-In</h3>
+            <p class="v3-card-cap">Push-To-Glass motion — extreme macro glide onto the gold-foil wordmark until the foil grain fills the frame. Aesop / Hermès material study.</p>
+            <div class="v3-card-meta">Higgsfield · Push To Glass · str 0.40 · 5s · $0.56</div>
+          </div>
+          <div class="v3-card" data-shot="crash-zoom">
+            <video src="videos/v3/crash-zoom.mp4" poster="images/v3/scene-very-berry-netflix.jpg" controls loop muted playsinline preload="metadata"></video>
+            <span class="v3-pillar">FOMO</span>
+            <h3>The Snap</h3>
+            <p class="v3-card-cap">Crash Zoom In — the lens snaps from establishing wide to a tight macro on the foil and holds. Decisive product-commercial energy for the close-the-deal moment.</p>
+            <div class="v3-card-meta">Higgsfield · Crash Zoom In · str 0.50 · 5s · $0.56</div>
+          </div>
+        </div>
+
+        <p class="v3-foot">Production cost per customer is <b>$0.60</b> — one Gemini scene-edit plus one chosen motion. The four cards above are the live A/B/C/D to pick the winning motion before that wires into the wizard.</p>
       </div>
     </section>
 
@@ -209,7 +254,7 @@
   <footer>
     <div class="container footer-row">
       <div class="cobrand">Vosges Haut-Chocolat<small>Powered by MBACIO</small></div>
-      <div>v3 reference run live · Vosges × History Channel · ~$0.60/customer · four pillars enforced</div>
+      <div>v3 reference run live · Vosges × Netflix · 4-motion bake-off · $0.60/customer · four pillars enforced</div>
     </div>
   </footer>
 
@@ -400,7 +445,7 @@
     });
 
     // Initial render
-    drawPlaceholder('History Channel');
+    drawPlaceholder('Netflix');
     update();
   </script>
 </body>
