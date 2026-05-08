@@ -197,10 +197,59 @@
       </div>
     </section>
 
-    <section id="variants" class="variants">
+    <section id="v4" class="variants" style="border-top:1px solid var(--line);background:linear-gradient(180deg, rgba(197,160,89,0.04) 0%, transparent 60%)">
       <div class="container">
         <div class="variants-head">
-          <h2>The three concepts</h2>
+          <span class="eyebrow">2026-05-08 · Brand-fidelity breakthrough</span>
+          <h2>v4 — Wan 2.7 i2v triple-anchor</h2>
+          <p>Same Netflix × Berry tower scene. New engine: <b>Replicate Wan 2.7 i2v</b> with <code>first_frame</code> + <code>last_frame</code> set to the same Gemini-edited image, mathematically locking start and end. Negative prompt forbids logo morph, foil warp, hue drift, hallucinated chocolate. Result: <b>NETFLIX wordmark pixel-stable across every frame, photoreal foil grain, no morphing.</b> 4 archetypes parallel · 64s wall-time · ~$4.50 total.</p>
+          <div class="pillars">
+            <div class="pill">Logo locked</div>
+            <div class="pill">Geometry locked</div>
+            <div class="pill">Foil photoreal</div>
+            <div class="pill">Triple-anchor</div>
+          </div>
+        </div>
+
+        <div class="v3-gallery v3-gallery-3" id="v4-gallery" style="grid-template-columns:repeat(auto-fit,minmax(280px,1fr))">
+          <div class="v3-card v3-keep" data-shot="static-hero-glide">
+            <video src="videos/v4/static-hero-glide.mp4" poster="images/v3/scene-very-berry-netflix.jpg" controls loop muted playsinline preload="metadata"></video>
+            <span class="v3-pillar">Static hero glide · #1</span>
+            <h3>The Hover</h3>
+            <p class="v3-card-cap"><b>Engine:</b> Wan 2.7 i2v · <b>Anchor:</b> first=last (LOCKED). Camera floats 1-2&quot; forward on the tower; subject dead-center; ambient room tone. Lowest morph risk in the entire menu — used to anchor a multi-product showcase.</p>
+            <div class="v3-card-meta">5s · 720p · ~$1.00 · t0/t2/tend frames stable</div>
+          </div>
+          <div class="v3-card v3-keep" data-shot="light-sweep">
+            <video src="videos/v4/light-sweep.mp4" poster="images/v3/scene-very-berry-netflix.jpg" controls loop muted playsinline preload="metadata"></video>
+            <span class="v3-pillar">Light-sweep specular · #2</span>
+            <h3>The Glow</h3>
+            <p class="v3-card-cap"><b>Engine:</b> Wan 2.7 i2v · <b>Anchor:</b> first=last (LOCKED). Single warm key light sweeps L→R across the lid, igniting the gold-foil emboss. Lighting-only motion — no geometry change. Pairs perfectly with the macro reveal as a beat.</p>
+            <div class="v3-card-meta">5s · 720p · ~$1.00 · foil shimmer photoreal</div>
+          </div>
+          <div class="v3-card v3-develop" data-shot="tilt-down">
+            <video src="videos/v4/tilt-down.mp4" poster="images/v3/scene-very-berry-netflix.jpg" controls loop muted playsinline preload="metadata"></video>
+            <span class="v3-pillar">Tilt-down reveal · #7</span>
+            <h3>The Reveal</h3>
+            <p class="v3-card-cap"><b>Engine:</b> Wan 2.7 i2v · <b>Anchor:</b> first only (camera moves). Bird's-eye → 3/4 hero. End frame becomes a stunning macro on the gold-foil NETFLIX wordmark embossed into deep purple velvet — the kind of shot Hermès would close an ad on.</p>
+            <div class="v3-card-meta">5s · 720p · ~$1.00 · macro tend frame premium-grade</div>
+          </div>
+          <div class="v3-card v3-develop" data-shot="crash-zoom">
+            <video src="videos/v4/crash-zoom.mp4" poster="images/v3/scene-very-berry-netflix.jpg" controls loop muted playsinline preload="metadata"></video>
+            <span class="v3-pillar">Crash zoom · #6</span>
+            <h3>The Punch</h3>
+            <p class="v3-card-cap"><b>Engine:</b> Wan 2.7 i2v · <b>Anchor:</b> first only (camera punches in). Wide-to-extreme-macro on the foil emboss. End frame holds on a luxury-commercial close-up — the foil texture is photoreal, the wordmark is pixel-perfect, the bokeh is buttery.</p>
+            <div class="v3-card-meta">5s · 720p · ~$1.50 · decisive impact beat</div>
+          </div>
+        </div>
+
+        <p class="v3-foot" style="font-size:.92rem"><b>What's different about v4 vs everything before:</b> the failure mode of yesterday's renders was the AI engine reinterpreting the input image (Higgsfield image2video at any motion strength morphs truffles, drifts logos). Wan 2.7 i2v with locked first+last frames mathematically cannot drift away from the start image — the model is constrained to interpolate motion <i>between</i> two anchor points it cannot change. This is the brand-fidelity guarantee the demo has needed since day one.</p>
+      </div>
+    </section>
+
+    <section id="variants" class="variants" style="border-top:1px solid var(--line)">
+      <div class="container">
+        <div class="variants-head">
+          <h2>The three concepts (v3 · Higgsfield + Ken Burns)</h2>
           <p>From yesterday's 9-variant compare, three motion concepts to develop further: <b>The Unfurl</b> (Garden Bloom — transformation), <b>The Texture</b> (macro material study), <b>The Shake</b> (FOMO impact). Same Gemini-edited Vosges scene drives all three — the chocolate, ribbon, and box stay pixel-stable; only the camera moves.</p>
           <div class="pillars">
             <div class="pill">Consistent</div>
