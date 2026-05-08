@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Magic Moment · Vosges Haut-Chocolat × MBACIO</title>
-  <meta name="description" content="See any brand on a Vosges Haut-Chocolat luxury gift in seconds. Live preview, cinematic reveal.">
+  <title>Magic Moment · Vote · Vosges Haut-Chocolat × MBACIO</title>
+  <meta name="description" content="Pick your top 3 product-motion archetypes for the Vosges magic-moment cinematic. 15 brand-fidelity-locked renders to choose from.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -13,7 +13,9 @@
       --purple-deep:#12090f; --purple-rich:#1a0f1c; --purple-mid:#2d1a2f; --purple-light:#4a2d4d;
       --gold:#c5a059; --gold-bright:#d4b06a; --gold-light:#e2d1a8;
       --cream:#f8f5f0; --ink:rgba(248,245,240,0.92); --mute:rgba(248,245,240,0.55); --line:rgba(197,160,89,0.18);
+      --sel:#9adc9a;
       --serif:'Cormorant Garamond',Georgia,serif; --sans:'DM Sans',system-ui,sans-serif;
+      --api-base:'https://jolly-pond-08e244610.7.azurestaticapps.net';
     }
     *{box-sizing:border-box}
     html,body{margin:0;padding:0;background:var(--purple-deep);color:var(--ink);font-family:var(--sans);line-height:1.55;-webkit-font-smoothing:antialiased}
@@ -23,114 +25,76 @@
     h1,h2,h3,h4{font-family:var(--serif);font-weight:400;color:var(--gold);letter-spacing:.5px;line-height:1.15;margin:0 0 .4em}
     h1{font-size:clamp(2.4rem,5.5vw,4.2rem);font-weight:300}
     h2{font-size:clamp(1.7rem,3vw,2.5rem)}
-    h3{font-size:1.4rem}
-    .container{max-width:1240px;margin:0 auto;padding:0 24px}
+    h3{font-size:1.35rem}
+    .container{max-width:1320px;margin:0 auto;padding:0 24px}
+
     /* Header */
-    header{position:sticky;top:0;z-index:10;backdrop-filter:blur(12px);background:rgba(18,9,15,0.78);border-bottom:1px solid var(--line)}
-    .nav{display:flex;align-items:center;justify-content:space-between;padding:18px 0}
+    header{position:sticky;top:0;z-index:30;backdrop-filter:blur(12px);background:rgba(18,9,15,0.85);border-bottom:1px solid var(--line)}
+    .nav{display:flex;align-items:center;justify-content:space-between;padding:18px 0;gap:18px}
     .brand{display:flex;align-items:center;gap:14px;font-family:var(--serif);font-size:1.15rem;color:var(--gold);font-style:italic}
     .brand .x{color:var(--mute);font-style:normal;font-family:var(--sans);font-size:.85rem;letter-spacing:1px}
-    .nav-link{font-size:.85rem;color:var(--mute);letter-spacing:.5px;text-transform:uppercase}
+    .nav-meta{font-size:.78rem;color:var(--mute);letter-spacing:.5px}
+    .nav-meta b{color:var(--gold-light);font-weight:500}
+
     /* Hero */
-    .hero{padding:80px 0 40px;text-align:center}
-    .eyebrow{font-family:var(--sans);font-size:.78rem;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:18px}
-    .hero p.lead{font-size:1.15rem;color:var(--mute);max-width:60ch;margin:1.2em auto 0}
-    /* Capture */
-    .capture{padding:40px 0 80px}
-    .capture-grid{display:grid;grid-template-columns:1fr 1.4fr;gap:48px;align-items:start}
-    @media (max-width:880px){.capture-grid{grid-template-columns:1fr}}
-    .form-card{background:rgba(0,0,0,0.28);border:1px solid var(--line);border-radius:14px;padding:32px}
-    label{display:block;font-size:.78rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;font-weight:500}
-    input[type=text]{width:100%;padding:14px 16px;background:rgba(0,0,0,0.32);border:1px solid var(--line);border-radius:8px;color:var(--cream);font-family:var(--sans);font-size:1rem;outline:none;transition:border-color .2s,background .2s}
-    input[type=text]:focus{border-color:var(--gold);background:rgba(0,0,0,0.42)}
-    input::placeholder{color:rgba(248,245,240,0.32)}
-    .field+.field{margin-top:18px}
-    .helper{font-size:.78rem;color:var(--mute);margin-top:8px}
-    .samples{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
-    .chip{cursor:pointer;font-size:.8rem;padding:6px 14px;border:1px solid var(--line);border-radius:999px;background:transparent;color:var(--gold-light);font-family:var(--sans);transition:all .2s}
-    .chip:hover{background:rgba(197,160,89,0.1);border-color:var(--gold)}
-    .chip.active{background:var(--gold);color:var(--purple-deep);border-color:var(--gold);font-weight:500}
-    /* Preview */
-    .preview-card{position:relative}
-    .preview-frame{aspect-ratio:1/1;background:var(--purple-rich);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;align-items:center;justify-content:center;position:relative}
-    .preview-frame img.scene{width:100%;height:100%;display:block;object-fit:cover;transition:opacity .35s ease}
-    .preview-frame.loading img.scene{opacity:.35}
-    .preview-status{position:absolute;bottom:14px;left:14px;background:rgba(0,0,0,0.65);backdrop-filter:blur(8px);padding:8px 14px;border-radius:999px;border:1px solid var(--line);font-size:.78rem;letter-spacing:.6px}
-    .preview-status .dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--gold);margin-right:8px;vertical-align:middle;animation:pulse 1.6s infinite}
-    @keyframes pulse{0%,100%{opacity:.5}50%{opacity:1}}
-    .preview-meta{margin-top:14px;display:flex;justify-content:space-between;align-items:center;font-size:.85rem;color:var(--mute);gap:10px;flex-wrap:wrap}
-    .preview-meta b{color:var(--gold-light);font-weight:500}
-    .upcoming-banner{margin-top:10px;padding:10px 14px;border:1px solid var(--line);border-radius:8px;background:rgba(197,160,89,0.05);font-size:.78rem;color:var(--mute);line-height:1.5}
-    .upcoming-banner b{color:var(--gold-light);font-weight:500;letter-spacing:.5px}
-    /* Variants */
-    .variants{padding:80px 0;border-top:1px solid var(--line)}
-    .variants-head{text-align:center;margin-bottom:48px}
-    .variants-head p{color:var(--mute);max-width:64ch;margin:1em auto 0}
-    .pillars{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-top:18px;font-family:var(--serif);font-style:italic;color:var(--gold);font-size:1rem}
-    .pillars .pill{padding:4px 12px;border:1px solid var(--line);border-radius:999px}
-    .v3-hero{display:grid;grid-template-columns:1fr 1.2fr;gap:32px;align-items:start;max-width:1200px;margin:0 auto 56px}
-    @media (max-width:880px){.v3-hero{grid-template-columns:1fr}}
-    .v3-scene{background:rgba(0,0,0,0.28);border:1px solid var(--line);border-radius:14px;padding:24px}
-    .v3-scene img{width:100%;display:block;border-radius:8px;background:#1a0f1c;aspect-ratio:1/1;object-fit:contain}
-    .v3-eyebrow{font-size:.7rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:12px}
-    .v3-hero-copy{padding:8px 0}
-    .v3-hero-copy h3{font-family:var(--serif);font-weight:400;color:var(--gold);font-size:1.7rem;margin:14px 0 12px}
-    .v3-caption{color:var(--mute);font-size:.95rem;line-height:1.6;margin:0 0 14px}
-    .v3-caption b{color:var(--gold-light);font-weight:500}
-    .v3-stat-row{display:flex;gap:14px;flex-wrap:wrap;margin-top:18px}
-    .v3-stat{padding:10px 14px;border:1px solid var(--line);border-radius:8px;font-size:.82rem;color:var(--mute)}
-    .v3-stat b{color:var(--gold-light);font-weight:500;display:block;font-size:.72rem;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:3px}
-    .v3-gallery{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;max-width:1200px;margin:0 auto}
-    .v3-gallery.v3-gallery-3{grid-template-columns:repeat(3,1fr);max-width:1320px}
-    @media (max-width:1040px){.v3-gallery.v3-gallery-3{grid-template-columns:repeat(2,1fr);max-width:880px}}
-    @media (max-width:880px){.v3-gallery,.v3-gallery.v3-gallery-3{grid-template-columns:1fr}}
-    .v3-card{background:rgba(0,0,0,0.28);border:1px solid var(--line);border-radius:14px;padding:20px;display:flex;flex-direction:column}
-    .v3-card video{width:100%;display:block;border-radius:8px;background:#000;aspect-ratio:16/9;object-fit:cover}
-    .v3-card h3{font-family:var(--serif);font-weight:400;color:var(--gold);font-size:1.35rem;margin:16px 0 6px}
-    .v3-card .v3-pillar{font-size:.7rem;letter-spacing:2px;text-transform:uppercase;color:var(--gold-light);font-weight:500}
-    .v3-card .v3-card-cap{color:var(--mute);font-size:.88rem;line-height:1.55;margin:10px 0 0}
-    .v3-card .v3-card-meta{margin-top:auto;padding-top:14px;font-size:.74rem;color:var(--mute);letter-spacing:.4px;border-top:1px solid var(--line);margin-top:14px;padding-top:12px}
-    .v3-card.v3-failed video{filter:grayscale(1) opacity(.35)}
-    .v3-card.v3-failed .v3-card-cap{color:var(--mute);font-style:italic}
-    .v3-yesterday{position:relative}
-    .v3-verdict{display:inline-block;padding:4px 11px;border-radius:999px;font-size:.65rem;letter-spacing:1.4px;text-transform:uppercase;border:1px solid;font-weight:500;margin-bottom:8px}
-    .v3-verdict-keep{background:rgba(120,180,120,0.15);color:#9adc9a;border-color:#9adc9a}
-    .v3-verdict-develop{background:rgba(197,160,89,0.15);color:var(--gold);border-color:var(--gold)}
-    .v3-verdict-reject{background:rgba(217,112,100,0.15);color:#e08a82;border-color:#d97064}
-    .v3-verdict-noverdict{background:rgba(248,245,240,0.06);color:var(--mute);border-color:var(--line)}
-    .v3-card.v3-keep{border-color:rgba(154,220,154,0.4);box-shadow:0 0 0 1px rgba(154,220,154,0.15)}
-    .v3-card.v3-develop{border-color:rgba(197,160,89,0.4)}
-    .v3-card.v3-reject{opacity:.78}
-    .v3-card.v3-reject video{filter:saturate(.7)}
-    .v3-not-rendered{aspect-ratio:16/9;border:1px dashed var(--line);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-direction:column;color:var(--mute);font-family:var(--serif);font-style:italic;font-size:1.05rem;text-align:center;padding:14px;background:rgba(0,0,0,0.18)}
-    .v3-not-rendered small{font-family:var(--sans);font-style:normal;font-size:.72rem;letter-spacing:.5px;color:rgba(248,245,240,0.4);margin-top:6px}
-    .v3-foot{margin-top:48px;text-align:center;color:var(--gold-light);font-size:.95rem;font-style:italic;font-family:var(--serif)}
-    .v3-foot b{font-style:normal;color:var(--gold)}
-    /* Cinematic hero */
-    .cinematic{padding:0;position:relative;background:#000;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
-    .cinematic-frame{width:100%;display:block;background:#000;aspect-ratio:16/9}
-    .cinematic-frame video{width:100%;height:100%;display:block;object-fit:cover}
-    .cinematic-cap{padding:24px;text-align:center;background:linear-gradient(180deg,rgba(0,0,0,0.4),rgba(18,9,15,0.8))}
-    .cinematic-cap .ce{font-size:.74rem;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;display:block}
-    .cinematic-cap h2{margin:0 0 6px;font-size:clamp(1.6rem,2.6vw,2.4rem)}
-    .cinematic-cap p{margin:0;color:var(--mute);font-size:.92rem;max-width:60ch;margin:0 auto}
-    @media (max-width:880px){
-      .cinematic-frame{aspect-ratio:9/16;max-width:560px;margin:0 auto}
-    }
-    /* Wizard preview */
-    .wizard{padding:80px 0;border-top:1px solid var(--line)}
-    .wizard-head{text-align:center;margin-bottom:36px}
-    .wizard-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
-    .step{background:rgba(0,0,0,0.22);border:1px solid var(--line);border-radius:10px;padding:20px;text-align:center;font-size:.92rem}
-    .step .num{display:inline-block;font-family:var(--serif);font-size:1.6rem;color:var(--gold);font-style:italic;margin-bottom:6px}
-    .step b{display:block;color:var(--cream);font-weight:500;margin-bottom:4px}
-    /* CTA */
-    .cta{padding:100px 0;text-align:center;border-top:1px solid var(--line)}
-    .cta p{color:var(--mute);max-width:50ch;margin:1em auto 2em}
-    .button{display:inline-block;padding:14px 32px;background:var(--gold);color:var(--purple-deep);font-family:var(--sans);font-weight:500;letter-spacing:1px;text-transform:uppercase;font-size:.85rem;border-radius:999px;border:none;cursor:pointer;transition:background .2s}
-    .button:hover{background:var(--gold-bright)}
+    .hero{padding:56px 0 28px;text-align:center}
+    .eyebrow{font-family:var(--sans);font-size:.78rem;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+    .hero h1{margin:0 auto;max-width:18ch}
+    .hero p.lead{font-size:1.08rem;color:var(--mute);max-width:62ch;margin:1.1em auto 0}
+
+    /* Vote bar */
+    .vote-bar{position:sticky;top:62px;z-index:20;backdrop-filter:blur(10px);background:rgba(18,9,15,0.78);border-bottom:1px solid var(--line);padding:14px 0;margin-bottom:32px}
+    .vote-bar .container{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap}
+    .vote-status{font-size:.92rem;color:var(--mute)}
+    .vote-status b{color:var(--gold-light);font-weight:500}
+    .vote-status .count{display:inline-block;min-width:1.2em;font-family:var(--serif);font-style:italic;color:var(--gold);font-size:1.2rem;font-weight:500}
+    .button{display:inline-block;padding:12px 28px;background:var(--gold);color:var(--purple-deep);font-family:var(--sans);font-weight:500;letter-spacing:1px;text-transform:uppercase;font-size:.82rem;border-radius:999px;border:none;cursor:pointer;transition:all .2s}
+    .button:hover:not(:disabled){background:var(--gold-bright);transform:translateY(-1px)}
+    .button:disabled{opacity:.4;cursor:not-allowed;background:rgba(197,160,89,0.3)}
     .button.outline{background:transparent;color:var(--gold);border:1px solid var(--gold)}
     .button.outline:hover{background:rgba(197,160,89,0.1);color:var(--gold-bright)}
+
+    /* Vote grid */
+    .vote-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:22px;padding-bottom:80px}
+    @media (min-width:1100px){.vote-grid{grid-template-columns:repeat(3,1fr)}}
+    .v-card{position:relative;background:rgba(0,0,0,0.32);border:1px solid var(--line);border-radius:14px;padding:18px;display:flex;flex-direction:column;cursor:pointer;transition:all .2s;user-select:none}
+    .v-card:hover{border-color:rgba(197,160,89,0.5);transform:translateY(-2px)}
+    .v-card.selected{border-color:var(--sel);box-shadow:0 0 0 1px var(--sel),0 8px 32px rgba(154,220,154,0.15);background:rgba(154,220,154,0.04)}
+    .v-card.disabled{opacity:.55;cursor:not-allowed}
+    .v-card.disabled:hover{transform:none;border-color:var(--line)}
+    .v-card video{width:100%;display:block;border-radius:8px;background:#000;aspect-ratio:1/1;object-fit:cover;pointer-events:auto}
+    .v-rank{position:absolute;top:14px;right:14px;width:32px;height:32px;border-radius:50%;background:var(--sel);color:var(--purple-deep);font-family:var(--serif);font-style:italic;font-weight:600;font-size:1.1rem;display:none;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(0,0,0,0.4);z-index:2}
+    .v-card.selected .v-rank{display:flex}
+    .v-num{font-size:.7rem;letter-spacing:2px;text-transform:uppercase;color:var(--gold-light);font-weight:500;margin:14px 0 4px}
+    .v-card h3{font-family:var(--serif);font-weight:400;color:var(--gold);font-size:1.4rem;margin:2px 0 6px}
+    .v-cap{color:var(--mute);font-size:.88rem;line-height:1.55;margin:0}
+    .v-meta{margin-top:auto;padding-top:12px;font-size:.72rem;color:var(--mute);letter-spacing:.4px;border-top:1px solid var(--line);display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+    .v-locked{display:inline-block;padding:2px 8px;border:1px solid rgba(154,220,154,0.4);border-radius:999px;color:var(--sel);font-size:.65rem;letter-spacing:1.2px;text-transform:uppercase;font-weight:500}
+    .v-engine{color:var(--gold-light)}
+
+    /* Modal */
+    .modal-overlay{position:fixed;inset:0;background:rgba(8,4,8,0.78);backdrop-filter:blur(8px);z-index:100;display:none;align-items:flex-start;justify-content:center;padding:60px 20px;overflow-y:auto}
+    .modal-overlay.open{display:flex}
+    .modal{background:var(--purple-rich);border:1px solid var(--line);border-radius:18px;padding:42px;max-width:580px;width:100%;box-shadow:0 30px 80px rgba(0,0,0,0.6)}
+    .modal h2{margin:0 0 8px}
+    .modal-sub{color:var(--mute);font-size:.95rem;margin:0 0 28px}
+    .modal label{display:block;font-size:.78rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;font-weight:500}
+    .modal input,.modal textarea{width:100%;padding:14px 16px;background:rgba(0,0,0,0.32);border:1px solid var(--line);border-radius:8px;color:var(--cream);font-family:var(--sans);font-size:1rem;outline:none;transition:border-color .2s,background .2s}
+    .modal input:focus,.modal textarea:focus{border-color:var(--gold);background:rgba(0,0,0,0.42)}
+    .modal input::placeholder,.modal textarea::placeholder{color:rgba(248,245,240,0.32)}
+    .modal textarea{resize:vertical;min-height:96px;font-family:var(--sans)}
+    .field+.field{margin-top:18px}
+    .picks-summary{margin:18px 0;padding:14px 16px;border:1px solid rgba(154,220,154,0.3);border-radius:8px;background:rgba(154,220,154,0.05);font-size:.88rem}
+    .picks-summary b{color:var(--sel);font-weight:500;display:block;margin-bottom:6px;font-size:.72rem;letter-spacing:1.4px;text-transform:uppercase}
+    .picks-summary ol{margin:0;padding:0 0 0 18px;color:var(--ink)}
+    .picks-summary li{margin:3px 0}
+    .modal-actions{display:flex;gap:12px;justify-content:flex-end;margin-top:28px}
+    .vote-error{margin-top:14px;padding:10px 14px;border-radius:8px;background:rgba(217,112,100,0.15);border:1px solid #d97064;color:#e08a82;font-size:.88rem;display:none}
+    .vote-success{text-align:center;padding:24px 0}
+    .vote-success .check{font-size:3rem;color:var(--sel);font-family:var(--serif);font-style:italic;margin-bottom:8px}
+    .vote-success p{color:var(--mute);margin:6px 0}
+    .vote-success a{color:var(--gold);text-decoration:underline}
+
     /* Footer */
     footer{padding:40px 0;border-top:1px solid var(--line);font-size:.85rem;color:var(--mute)}
     .footer-row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px}
@@ -141,386 +105,243 @@
 <body>
   <header>
     <div class="container nav">
-      <div class="brand">Vosges Haut-Chocolat <span class="x">× MBACIO</span></div>
-      <a class="nav-link" href="#variants">See it in motion ↓</a>
+      <div class="brand">Vosges Haut-Chocolat <span class="x">× MBACIO · Magic Moment</span></div>
+      <div class="nav-meta">15 archetypes · Wan 2.7 i2v · brand-fidelity locked</div>
     </div>
   </header>
 
   <main>
     <section class="hero container">
-      <div class="eyebrow">Magic Moment v2 · Live Preview</div>
-      <h1>Your brand on a Vosges luxury gift,<br><em style="font-style:italic;color:var(--gold-light);font-weight:300">instantly.</em></h1>
-      <p class="lead">Paste a website. Watch your logo land on a real Vosges Haut-Chocolat luxury gift box. See the cinematic reveal that fires the moment a corporate buyer captures your brand.</p>
+      <div class="eyebrow">Leadership vote · 2026-05-08</div>
+      <h1>Pick your 3 favorites.<br><em style="font-style:italic;color:var(--gold-light);font-weight:300">The winners ship as the prospect demo.</em></h1>
+      <p class="lead">Each card is a 5-second AI-rendered cinematic on the same Vosges × Netflix scene — every motion archetype we considered for the Magic Moment customizer. Click cards to rank your top 3, then cast your vote. The 3 winners get upgraded to 30-second multi-shot polished cinematics for the prospect.</p>
     </section>
 
-    <section class="capture container">
-      <div class="capture-grid">
-        <div class="form-card">
-          <p class="helper" style="margin:0 0 18px;color:var(--gold-light);font-size:.92rem;line-height:1.55">Pick a sample brand. The Gemini scene-edit replaces every visible Vosges crest with that brand's logo in 24k-gold foil — on every box face and the hangtag — preserving the chocolate, ribbon, and lighting.</p>
-          <div class="samples" id="brand-chips">
-            <button type="button" class="chip active" data-slug="netflix" data-name="Netflix">Netflix</button>
-            <button type="button" class="chip" data-slug="apple" data-name="Apple">Apple</button>
-            <button type="button" class="chip" data-slug="microsoft" data-name="Microsoft">Microsoft</button>
-            <button type="button" class="chip" data-slug="google" data-name="Google">Google</button>
-            <button type="button" class="chip" data-slug="spotify" data-name="Spotify">Spotify</button>
-          </div>
-          <div class="upcoming-banner">
-            <b>Live regeneration</b><br>
-            Typing an arbitrary brand fires the live n8n pipeline (Gemini scene-edit → Higgsfield motion) — wired in the next phase. The 5 samples above are pre-baked reference outputs from the live pipeline.
-          </div>
-        </div>
-
-        <div class="preview-card">
-          <div class="preview-frame" id="preview-frame">
-            <img class="scene" id="scene-img" src="images/v3/scene-very-berry-netflix.jpg" alt="Vosges Very Berry tower with the customer brand logo gold-foil-embossed on every visible box face and the hangtag">
-            <div class="preview-status" id="status"><span class="dot"></span><span id="status-text">Netflix · live scene-edit</span></div>
-          </div>
-          <div class="preview-meta">
-            <div><b id="meta-brand">Netflix</b> on the Vosges Very Berry tower</div>
-            <div>Gemini 2.5 Flash Image · ~12s · ~$0.04</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="cinematic">
-      <div class="cinematic-frame" id="cinematic-frame">
-        <video id="cinematic-hero" autoplay muted loop playsinline preload="metadata" controls>
-          <source src="videos/v3/cinematic-vertical.mp4" media="(max-width: 880px)" type="video/mp4">
-          <source src="videos/v3/cinematic-horizontal.mp4" type="video/mp4">
-        </video>
-      </div>
-      <div class="cinematic-cap">
-        <span class="ce">25-second luxury reveal · Netflix × Vosges 9-PC truffle box</span>
-        <h2>This is the magic moment.</h2>
-        <p>Five-cut cinematic that fires when a corporate buyer captures their brand on a Vosges product. Locked source: <b>exotic-truffle-collection-9-pieces</b> Shopify hero. Photo-true Vosges chocolate. Hard cuts close→open, like a real luxury car-reveal ad.</p>
-      </div>
-    </section>
-
-    <section id="v4" class="variants" style="border-top:1px solid var(--line);background:linear-gradient(180deg, rgba(197,160,89,0.04) 0%, transparent 60%)">
+    <div class="vote-bar">
       <div class="container">
-        <div class="variants-head">
-          <span class="eyebrow">2026-05-08 · 15 archetypes · Netflix × Berry tower · Wan 2.7 i2v</span>
-          <h2>The 15-archetype menu</h2>
-          <p>All 15 product-motion archetypes rendered against the same Gemini-edited Netflix × Vosges Berry tower scene via <b>Replicate Wan 2.7 i2v</b> with <code>first_frame</code> + <code>last_frame</code> anchors. Logo locked. Geometry locked. Foil photoreal. <b>Pick the 12 that go in the leadership vote.</b></p>
-          <div class="pillars">
-            <div class="pill">15 / 15 rendered</div>
-            <div class="pill">~$13 spend</div>
-            <div class="pill">~$37 budget remaining</div>
-            <div class="pill">Pick 12</div>
-          </div>
+        <div class="vote-status">
+          <span class="count" id="pick-count">0</span><b> / 3 picks</b>
+          &middot; <span id="pick-summary">click a card to start</span>
         </div>
-
-        <div class="v3-gallery v3-gallery-3" id="v4-gallery" style="grid-template-columns:repeat(auto-fit,minmax(280px,1fr))">
-          <div class="v3-card" data-shot="static-hero-glide">
-            <video src="videos/v4/static-hero-glide.mp4" poster="images/v3/scene-very-berry-netflix.jpg" controls loop muted playsinline preload="metadata"></video>
-            <span class="v3-pillar">#1 · Static Hero Glide · LOCKED</span>
-            <h3>The Hover</h3>
-            <p class="v3-card-cap">Camera floats 1-2&quot; forward on the locked tower. Subject dead-center. Lowest morph risk.</p>
-            <div class="v3-card-meta">5s · 720p · ~$1.00</div>
-          </div>
-          <div class="v3-card" data-shot="light-sweep">
-            <video src="videos/v4/light-sweep.mp4" poster="images/v3/scene-very-berry-netflix.jpg" controls loop muted playsinline preload="metadata"></video>
-            <span class="v3-pillar">#2 · Light-Sweep Specular · LOCKED</span>
-            <h3>The Glow</h3>
-            <p class="v3-card-cap">Single warm key light sweeps L→R across the lid, igniting the gold-foil emboss.</p>
-            <div class="v3-card-meta">5s · 720p · ~$1.00</div>
-          </div>
-          <div class="v3-card" data-shot="lid-lift-unbox">
-            <video src="videos/v4/lid-lift-unbox.mp4" poster="images/v3/scene-very-berry-netflix.jpg" controls loop muted playsinline preload="metadata"></video>
-            <span class="v3-pillar">#3 · Lid-Lift Unbox</span>
-            <h3>The Open</h3>
-            <p class="v3-card-cap">Top-down. Lid pivots up on a hinge revealing chocolates inside.</p>
-            <div class="v3-card-meta">5s · 720p · ~$1.00</div>
-          </div>
-          <div class="v3-card" data-shot="hand-entry-place-down">
-            <video src="videos/v4/hand-entry-place-down.mp4" poster="images/v3/scene-very-berry-netflix.jpg" controls loop muted playsinline preload="metadata"></video>
-            <span class="v3-pillar">#4 · Hand-Entry Place-Down</span>
-            <h3>The Placement</h3>
-            <p class="v3-card-cap">Hand enters frame from below and gently sets the gift on velvet.</p>
-            <div class="v3-card-meta">5s · 720p · ~$1.50</div>
-          </div>
-          <div class="v3-card" data-shot="orbit-360">
-            <video src="videos/v4/orbit-360.mp4" poster="images/v3/scene-very-berry-netflix.jpg" controls loop muted playsinline preload="metadata"></video>
-            <span class="v3-pillar">#5 · Turntable Orbit · LOCKED</span>
-            <h3>The Orbit</h3>
-            <p class="v3-card-cap">Camera locked at hero height; product on an invisible lazy-susan.</p>
-            <div class="v3-card-meta">5s · 720p · ~$1.00</div>
-          </div>
-          <div class="v3-card" data-shot="crash-zoom">
-            <video src="videos/v4/crash-zoom.mp4" poster="images/v3/scene-very-berry-netflix.jpg" controls loop muted playsinline preload="metadata"></video>
-            <span class="v3-pillar">#6 · Crash Zoom to Logo</span>
-            <h3>The Punch</h3>
-            <p class="v3-card-cap">Wide → extreme macro on the foil emboss. Decisive impact beat.</p>
-            <div class="v3-card-meta">5s · 720p · ~$1.50</div>
-          </div>
-          <div class="v3-card" data-shot="tilt-down">
-            <video src="videos/v4/tilt-down.mp4" poster="images/v3/scene-very-berry-netflix.jpg" controls loop muted playsinline preload="metadata"></video>
-            <span class="v3-pillar">#7 · Tilt-Down Reveal</span>
-            <h3>The Reveal</h3>
-            <p class="v3-card-cap">Bird's-eye → 3/4 hero. End frame is a Hermès-grade macro on velvet.</p>
-            <div class="v3-card-meta">5s · 720p · ~$1.00</div>
-          </div>
-          <div class="v3-card" data-shot="macro-plunge">
-            <video src="videos/v4/macro-plunge.mp4" poster="images/v3/scene-very-berry-netflix.jpg" controls loop muted playsinline preload="metadata"></video>
-            <span class="v3-pillar">#8 · Macro Plunge</span>
-            <h3>The Dive</h3>
-            <p class="v3-card-cap">Camera dives into the foil emboss; ends on extreme cocoa/foil grain texture.</p>
-            <div class="v3-card-meta">5s · 720p · ~$1.50</div>
-          </div>
-          <div class="v3-card" data-shot="parallax-pan">
-            <video src="videos/v4/parallax-pan.mp4" poster="images/v3/scene-very-berry-netflix.jpg" controls loop muted playsinline preload="metadata"></video>
-            <span class="v3-pillar">#9 · Parallax Background Pan · LOCKED</span>
-            <h3>The Drift</h3>
-            <p class="v3-card-cap">Subject locked dead-center; the studio backdrop slides horizontally past.</p>
-            <div class="v3-card-meta">5s · 720p · ~$1.00</div>
-          </div>
-          <div class="v3-card" data-shot="asmr-foil-crinkle">
-            <video src="videos/v4/asmr-foil-crinkle.mp4" poster="images/v3/scene-very-berry-netflix.jpg" controls loop muted playsinline preload="metadata"></video>
-            <span class="v3-pillar">#10 · ASMR Foil-Crinkle · LOCKED</span>
-            <h3>The Crinkle</h3>
-            <p class="v3-card-cap">Macro on foil; gold shimmers and a single corner microscopically flexes.</p>
-            <div class="v3-card-meta">5s · 720p · ~$1.00</div>
-          </div>
-          <div class="v3-card" data-shot="packshot-hold">
-            <video src="videos/v4/packshot-hold.mp4" poster="images/v3/scene-very-berry-netflix.jpg" controls loop muted playsinline preload="metadata"></video>
-            <span class="v3-pillar">#11 · Packshot Final-Frame · LOCKED</span>
-            <h3>The Hold</h3>
-            <p class="v3-card-cap">Brand-clean closing beauty card. Product centered, room for a tagline.</p>
-            <div class="v3-card-meta">5s · 720p · ~$1.00</div>
-          </div>
-          <div class="v3-card" data-shot="liquid-cocoa-pour">
-            <video src="videos/v4/liquid-cocoa-pour.mp4" poster="images/v3/scene-very-berry-netflix.jpg" controls loop muted playsinline preload="metadata"></video>
-            <span class="v3-pillar">#12 · Liquid-Cocoa Pour</span>
-            <h3>The Pour</h3>
-            <p class="v3-card-cap">Melted chocolate stream resolves into the hero shot, splashes crown the lid.</p>
-            <div class="v3-card-meta">5s · 720p · ~$1.50</div>
-          </div>
-          <div class="v3-card" data-shot="smoke-mist-reveal">
-            <video src="videos/v4/smoke-mist-reveal.mp4" poster="images/v3/scene-very-berry-netflix.jpg" controls loop muted playsinline preload="metadata"></video>
-            <span class="v3-pillar">#13 · Smoke / Mist Reveal · LOCKED</span>
-            <h3>The Mist</h3>
-            <p class="v3-card-cap">Frame fills with low-rolling fog; product emerges as the mist clears.</p>
-            <div class="v3-card-meta">5s · 720p · ~$1.00</div>
-          </div>
-          <div class="v3-card" data-shot="gold-foil-caustics">
-            <video src="videos/v4/gold-foil-caustics.mp4" poster="images/v3/scene-very-berry-netflix.jpg" controls loop muted playsinline preload="metadata"></video>
-            <span class="v3-pillar">#14 · Gold-Foil Caustics · LOCKED</span>
-            <h3>The Caustics</h3>
-            <p class="v3-card-cap">Refractive light caustics dance across the embossed wordmark like cut crystal.</p>
-            <div class="v3-card-meta">5s · 720p · ~$1.00</div>
-          </div>
-          <div class="v3-card" data-shot="lifestyle-tasting">
-            <video src="videos/v4/lifestyle-tasting.mp4" poster="images/v3/scene-very-berry-netflix.jpg" controls loop muted playsinline preload="metadata"></video>
-            <span class="v3-pillar">#15 · Lifestyle Hand-In Tasting</span>
-            <h3>The Taste</h3>
-            <p class="v3-card-cap">Hand reaches in, lifts one bonbon out toward the camera in soft focus.</p>
-            <div class="v3-card-meta">5s · 720p · ~$1.50</div>
-          </div>
-        </div>
-
-        <p class="v3-foot" style="font-size:.92rem"><b>How to read this menu:</b> the &quot;LOCKED&quot; tag marks archetypes where <code>first_frame</code> = <code>last_frame</code> (motion is interpolated between two identical anchors — mathematically cannot morph the input). The non-locked archetypes use first-frame anchor only and let the camera/subject motion play out across 5 seconds. Once you pick the 12 finalists, the winners get upgraded to <b>Veo 3.1 i2v 30-sec stitched cinematics</b> for the leadership vote. Spend so far: ~$13. Remaining budget for top-12 polish: ~$37.</p>
+        <button class="button" id="vote-button" disabled>Cast your vote</button>
       </div>
-    </section>
+    </div>
 
-    <section id="variants" class="variants" style="border-top:1px solid var(--line)">
-      <div class="container">
-        <div class="variants-head">
-          <h2>The three concepts (v3 · Higgsfield + Ken Burns)</h2>
-          <p>From yesterday's 9-variant compare, three motion concepts to develop further: <b>The Unfurl</b> (Garden Bloom — transformation), <b>The Texture</b> (macro material study), <b>The Shake</b> (FOMO impact). Same Gemini-edited Vosges scene drives all three — the chocolate, ribbon, and box stay pixel-stable; only the camera moves.</p>
-          <div class="pillars">
-            <div class="pill">Consistent</div>
-            <div class="pill">Realistic</div>
-            <div class="pill">Textured</div>
-            <div class="pill">FOMO</div>
-          </div>
-        </div>
-
-        <div class="v3-gallery v3-gallery-3" id="v3-gallery">
-          <div class="v3-card" data-shot="unfurl">
-            <video src="videos/v3/bloom.mp4" poster="images/v3/scene-very-berry-netflix.jpg" controls loop muted playsinline preload="metadata"></video>
-            <span class="v3-pillar">Transformation</span>
-            <h3>The Unfurl</h3>
-            <p class="v3-card-cap"><b>Locked source:</b> very-berry-cake-and-chocolate-tower (Shopify). Higgsfield Garden Bloom motion on the closed Vosges tower scene; gold-dust unfurl outward, NETFLIX wordmark pixel-stable across every face. This is the concept you flagged yesterday as the one to refine.</p>
-          </div>
-          <div class="v3-card" data-shot="texture-tilt">
-            <video src="videos/v3/texture-tilt.mp4" poster="images/v3/scene-truffle-netflix.jpg" controls loop muted playsinline preload="metadata"></video>
-            <span class="v3-pillar">Material study · Tilt</span>
-            <h3>The Texture · Tilt Down</h3>
-            <p class="v3-card-cap"><b>Locked source:</b> exotic-truffle-collection-16-pieces (Shopify) — open box, 16 real Vosges truffles. <b>Ken Burns camera move</b> on the static Gemini-edited scene: tilts from NETFLIX gold-foil lid down across the actual jewel-toned Vosges truffles. <b>No AI motion model — truffles can't morph because nothing is generating them.</b> Switched from Higgsfield image2video specifically to fix yesterday's "truffles MOVE" issue.</p>
-          </div>
-          <div class="v3-card" data-shot="texture-push">
-            <video src="videos/v3/texture-push.mp4" poster="images/v3/scene-truffle-netflix.jpg" controls loop muted playsinline preload="metadata"></video>
-            <span class="v3-pillar">Material study · Push</span>
-            <h3>The Texture · Push To Glass</h3>
-            <p class="v3-card-cap"><b>Same truffle Shopify scene.</b> Ken Burns macro push-in — camera zooms from full open-box wide to extreme detail of the truffle grid. Same no-AI guarantee: chocolate is photo-true Vosges, no morphing.</p>
-          </div>
-        </div>
-
-        <p class="v3-foot"><b>The Shake</b> is held back this round. Hand-on-box product-shake is text-to-video only (Veo / Sora). Replicate is at 402; once topped up I'll render the real Veo Shake on a Vosges-branded scene. See yesterday's compare below for the v1 Shake render.</p>
+    <div class="container">
+      <div class="vote-grid" id="vote-grid">
+        <!-- 15 cards rendered by JS -->
       </div>
-    </section>
-
-    <section class="variants" style="border-top:1px solid var(--line)">
-      <div class="container">
-        <div class="variants-head">
-          <h2>Yesterday's 9-variant compare</h2>
-          <p>Every variant from the 2026-05-06 compare run, with your verdicts attached. <span style="color:var(--gold-light)">Green</span> = liked / refine. <span style="color:var(--gold)">Gold</span> = develop further. <span style="color:#d97064">Red</span> = rejected. <span style="color:var(--mute)">Gray</span> = not rendered or no verdict captured.</p>
-        </div>
-        <div class="v3-gallery v3-gallery-3" id="yesterday-gallery">
-
-          <article class="v3-card v3-yesterday v3-keep" data-id="J-hf-bloom">
-            <video src="videos/v1-yesterday/J-hf-bloom.mp4" controls loop muted playsinline preload="metadata"></video>
-            <span class="v3-pillar v3-verdict v3-verdict-keep">Refine tomorrow — concept liked</span>
-            <h3>J · The Unfurl</h3>
-            <p class="v3-card-cap"><b>Higgsfield Garden Bloom</b> · dop-preview · 5s · $0.56. Macro butterfly-wing transformation, gold-foil seal blooms open. <em>Your quote: "I like the concept J-hf-bloom — Higgsfield · Garden Bloom (Unfurl)"</em></p>
-          </article>
-
-          <article class="v3-card v3-yesterday v3-develop" data-id="E-texture">
-            <video src="videos/v1-yesterday/E-texture.mp4" controls loop muted playsinline preload="metadata"></video>
-            <span class="v3-pillar v3-verdict v3-verdict-develop">Develop further</span>
-            <h3>E · The Texture</h3>
-            <p class="v3-card-cap"><b>Veo 3</b> · 5s · ~$4.00. Macro material film: foil → cocoa nibs → ribbon → velvet. <em>Your quote: "That's not even their fucking chocolate" — addressed today by switching to Higgsfield image2video on the truffle Shopify scene (above).</em></p>
-          </article>
-
-          <article class="v3-card v3-yesterday v3-develop" data-id="B-shake">
-            <video src="videos/v1-yesterday/B-shake.mp4" controls loop muted playsinline preload="metadata"></video>
-            <span class="v3-pillar v3-verdict v3-verdict-develop">Develop further</span>
-            <h3>B · The Shake</h3>
-            <p class="v3-card-cap"><b>Veo 3</b> · 6s · ~$5.00. Two-tap product shake, time slows, box rotates 180° midair. <em>Your quote: "develop further" — concept right, Vosges branding pending. Real re-render needs Replicate top-up.</em></p>
-          </article>
-
-          <article class="v3-card v3-yesterday v3-reject" data-id="G-pour">
-            <video src="videos/v1-yesterday/G-pour.mp4" controls loop muted playsinline preload="metadata"></video>
-            <span class="v3-pillar v3-verdict v3-verdict-reject">Reject</span>
-            <h3>G · The Pour</h3>
-            <p class="v3-card-cap"><b>Seedance 1 Pro</b> · 8s · ~$0.50. Ganache pour over branded card → into Vosges box. <em>Your quote: "is NOT EVEN finishing on the CUSTOMER Supposed box; it just loops to the begining? is that generating FOMO?"</em></p>
-          </article>
-
-          <article class="v3-card v3-yesterday v3-reject" data-id="I-hf-zoom">
-            <video src="videos/v1-yesterday/I-hf-zoom.mp4" controls loop muted playsinline preload="metadata"></video>
-            <span class="v3-pillar v3-verdict v3-verdict-reject">Reject</span>
-            <h3>I · Higgsfield Crash Zoom</h3>
-            <p class="v3-card-cap"><b>Higgsfield</b> · dop-turbo · 5s · $0.41. Crash zoom into gold-foil logo. <em>Your quote: "AI CRAP generated; not realistic, wrong logo placement"</em></p>
-          </article>
-
-          <article class="v3-card v3-yesterday v3-reject" data-id="H-hf-reveal">
-            <video src="videos/v1-yesterday/H-hf-reveal.mp4" controls loop muted playsinline preload="metadata"></video>
-            <span class="v3-pillar v3-verdict v3-verdict-reject">Reject</span>
-            <h3>H · Higgsfield Agent Reveal</h3>
-            <p class="v3-card-cap"><b>Higgsfield</b> · dop-preview · 5s · $0.56. Editorial reveal of closed box. <em>Your quote: "first video shows a whole different, wako logo instead of the one requested"</em></p>
-          </article>
-
-          <article class="v3-card v3-yesterday v3-noverdict" data-id="D-bite">
-            <video src="videos/v1-yesterday/D-bite.mp4" controls loop muted playsinline preload="metadata"></video>
-            <span class="v3-pillar v3-verdict v3-verdict-noverdict">No verdict captured</span>
-            <h3>D · The Bite</h3>
-            <p class="v3-card-cap"><b>Sora 2</b> · 6s · ~$4.50. Macro yummy reveal, truffle broken open over branded box. No explicit feedback found from yesterday's session.</p>
-          </article>
-
-          <article class="v3-card v3-yesterday v3-noverdict" data-id="K-hf-push">
-            <video src="videos/v1-yesterday/K-hf-push.mp4" controls loop muted playsinline preload="metadata"></video>
-            <span class="v3-pillar v3-verdict v3-verdict-noverdict">No verdict captured</span>
-            <h3>K · Higgsfield Push To Glass</h3>
-            <p class="v3-card-cap"><b>Higgsfield</b> · dop-preview · 5s · $0.56. Macro push onto truffle next to branded box. No explicit feedback found from yesterday's session.</p>
-          </article>
-
-          <article class="v3-card v3-yesterday v3-noverdict" data-id="A-reveal">
-            <div class="v3-not-rendered">Not rendered<br><small>Replicate balance / kling-v2.1-master timeout</small></div>
-            <span class="v3-pillar v3-verdict v3-verdict-noverdict">Not rendered</span>
-            <h3>A · The Reveal</h3>
-            <p class="v3-card-cap"><b>Kling 2.1 Master</b> · 10s · ~$1.40. Cinema-baseline orbit + push. Pending Replicate top-up.</p>
-          </article>
-
-          <article class="v3-card v3-yesterday v3-noverdict" data-id="C-unfurl">
-            <div class="v3-not-rendered">Not rendered<br><small>Replicate balance / runway gen4-turbo</small></div>
-            <span class="v3-pillar v3-verdict v3-verdict-noverdict">Not rendered</span>
-            <h3>C · The Unfurl</h3>
-            <p class="v3-card-cap"><b>Runway Gen4 Turbo</b> · 6s · ~$1.80. Macro transformation reveal. Pending Replicate top-up.</p>
-          </article>
-
-          <article class="v3-card v3-yesterday v3-noverdict" data-id="F-imagine">
-            <div class="v3-not-rendered">Not rendered<br><small>xAI key not provisioned</small></div>
-            <span class="v3-pillar v3-verdict v3-verdict-noverdict">Not rendered</span>
-            <h3>F · The Imagine</h3>
-            <p class="v3-card-cap"><b>Grok Imagine 2</b> · 5s · ~$4.00. Alchemic materialization. Pending xAI key.</p>
-          </article>
-
-        </div>
-      </div>
-    </section>
-
-    <section class="wizard">
-      <div class="container">
-        <div class="wizard-head">
-          <h2>The full corporate-gifting flow</h2>
-          <p style="color:var(--mute);max-width:60ch;margin:1em auto 0">After the magic moment, the buyer customizes. Six micro-steps, each updating the preview in &lt; 500ms. No wait, no friction.</p>
-        </div>
-        <div class="wizard-grid">
-          <div class="step"><span class="num">1</span><b>Capture</b><span style="color:var(--mute)">Logo + brand. The magic moment fires here.</span></div>
-          <div class="step"><span class="num">2</span><b>Box</b><span style="color:var(--mute)">9 box colors</span></div>
-          <div class="step"><span class="num">3</span><b>Foil</b><span style="color:var(--mute)">4 foil finishes</span></div>
-          <div class="step"><span class="num">4</span><b>Ribbon</b><span style="color:var(--mute)">3 ribbon colors</span></div>
-          <div class="step"><span class="num">5</span><b>Font + message</b><span style="color:var(--mute)">8 brand fonts + custom text</span></div>
-          <div class="step"><span class="num">6</span><b>Order</b><span style="color:var(--mute)">QTY-aware delivery + live Shopify cart</span></div>
-        </div>
-      </div>
-    </section>
-
-    <section class="cta">
-      <div class="container">
-        <h2>Magic moment, properly built</h2>
-        <p>One API-driven pipeline: pick product, capture brand, scene-edit, multi-shot reveal. No hallucinated text, no generic chocolate b-roll, no wrong logo. Live demo coming back online once the v3 bake-off picks a winner.</p>
-        <a class="button outline" href="https://github.com/maxysadm-GH/mbacio-gift-customizer" target="_blank" rel="noopener">Engine source</a>
-      </div>
-    </section>
+    </div>
   </main>
 
   <footer>
     <div class="container footer-row">
-      <div class="cobrand">Vosges Haut-Chocolat<small>Powered by MBACIO</small></div>
-      <div>v3 reference run live · 5 sample brands · today's 3 + yesterday's 9-variant compare with your verdicts</div>
+      <div class="cobrand">Vosges Haut-Chocolat × MBACIO <small>Magic Moment v4 · 2026-05-08</small></div>
+      <div>Engine: <a href="https://replicate.com/wan-video/wan-2.7-i2v" target="_blank" rel="noopener">replicate.com/wan-video/wan-2.7-i2v</a></div>
     </div>
   </footer>
 
+  <!-- Vote modal -->
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal" id="modal">
+      <div id="modal-form">
+        <h2>Cast your vote</h2>
+        <p class="modal-sub">We'll record your top 3 picks plus an optional comment. The 3 most-voted archetypes ship as the polished 30-second demo.</p>
+        <div class="picks-summary" id="picks-summary"></div>
+        <div class="field">
+          <label for="voter-name">Your name</label>
+          <input type="text" id="voter-name" placeholder="Jane Doe" autocomplete="name" required>
+        </div>
+        <div class="field">
+          <label for="voter-email">Email</label>
+          <input type="email" id="voter-email" placeholder="jane@vosges.com" autocomplete="email" required>
+        </div>
+        <div class="field">
+          <label for="voter-comment">Comment <span style="color:var(--mute);font-size:.7rem;letter-spacing:.5px;text-transform:none;font-weight:400">(optional)</span></label>
+          <textarea id="voter-comment" placeholder="What worked, what didn't, what you'd combine…"></textarea>
+        </div>
+        <div class="vote-error" id="vote-error"></div>
+        <div class="modal-actions">
+          <button class="button outline" id="modal-cancel" type="button">Cancel</button>
+          <button class="button" id="modal-submit" type="button">Submit vote</button>
+        </div>
+      </div>
+      <div id="modal-success" style="display:none">
+        <div class="vote-success">
+          <div class="check">✓</div>
+          <h2>Thank you</h2>
+          <p>Your vote has been recorded.</p>
+          <p><a href="#" id="success-issue-link" target="_blank" rel="noopener" style="display:none">View receipt</a></p>
+          <p><button class="button outline" id="modal-close" type="button" style="margin-top:18px">Close</button></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script>
-    // Sample brands → pre-baked Gemini scene-edit (every box face + hangtag
-    // gets the customer logo in 24k-gold foil). No client-side compositing —
-    // the canvas approach only stamped one favicon onto one box and left
-    // every other Vosges crest visible. This is the real magic-moment.
-    const sceneFor = (slug) => `images/v3/scene-very-berry-${slug}.jpg`;
+    const ARCHETYPES = [
+      {key:'the-hover',num:1,name:'The Hover',sub:'Static Hero Glide',mech:'Camera floats 1–2" forward on the locked tower. Subject dead-center.',video:'videos/v4/static-hero-glide.mp4',locked:true},
+      {key:'the-glow',num:2,name:'The Glow',sub:'Light-Sweep Specular',mech:'Single warm key light sweeps L→R across the lid, igniting the gold-foil emboss.',video:'videos/v4/light-sweep.mp4',locked:true},
+      {key:'the-open',num:3,name:'The Open',sub:'Lid-Lift Unbox (top-down)',mech:'Top-down. Lid pivots up on a hinge revealing chocolates inside.',video:'videos/v4/lid-lift-unbox.mp4',locked:false},
+      {key:'the-placement',num:4,name:'The Placement',sub:'Hand-Entry Place-Down',mech:'Hand enters frame from below and gently sets the gift on velvet.',video:'videos/v4/hand-entry-place-down.mp4',locked:false},
+      {key:'the-orbit',num:5,name:'The Orbit',sub:'Turntable Orbit (360°)',mech:'Camera locked at hero height; product on an invisible lazy-susan.',video:'videos/v4/orbit-360.mp4',locked:true},
+      {key:'the-punch',num:6,name:'The Punch',sub:'Crash Zoom to Logo',mech:'Wide → extreme macro on the foil emboss. Decisive impact beat.',video:'videos/v4/crash-zoom.mp4',locked:false},
+      {key:'the-reveal',num:7,name:'The Reveal',sub:'Tilt-Down Reveal',mech:'Bird\'s-eye → 3/4 hero. End frame is a Hermès-grade macro on velvet.',video:'videos/v4/tilt-down.mp4',locked:false},
+      {key:'the-dive',num:8,name:'The Dive',sub:'Macro Plunge',mech:'Camera dives into the foil emboss; ends on extreme grain texture.',video:'videos/v4/macro-plunge.mp4',locked:false},
+      {key:'the-drift',num:9,name:'The Drift',sub:'Parallax Background Pan',mech:'Subject locked dead-center; the studio backdrop slides horizontally past.',video:'videos/v4/parallax-pan.mp4',locked:true},
+      {key:'the-crinkle',num:10,name:'The Crinkle',sub:'ASMR Foil-Crinkle',mech:'Macro on foil; gold shimmers and a single corner microscopically flexes.',video:'videos/v4/asmr-foil-crinkle.mp4',locked:true},
+      {key:'the-hold',num:11,name:'The Hold',sub:'Packshot Final-Frame',mech:'Brand-clean closing beauty card. Product centered, room for a tagline.',video:'videos/v4/packshot-hold.mp4',locked:true},
+      {key:'the-pour',num:12,name:'The Pour',sub:'Liquid-Cocoa Pour',mech:'Melted chocolate stream resolves into the hero shot, splashes crown the lid.',video:'videos/v4/liquid-cocoa-pour.mp4',locked:false},
+      {key:'the-mist',num:13,name:'The Mist',sub:'Smoke / Mist Reveal',mech:'Frame fills with low-rolling fog; product emerges as the mist clears.',video:'videos/v4/smoke-mist-reveal.mp4',locked:true},
+      {key:'the-caustics',num:14,name:'The Caustics',sub:'Gold-Foil Light-Catcher',mech:'Refractive light caustics dance across the embossed wordmark like cut crystal.',video:'videos/v4/gold-foil-caustics.mp4',locked:true},
+      {key:'the-taste',num:15,name:'The Taste',sub:'Lifestyle Hand-In Tasting',mech:'Hand reaches in, lifts one bonbon out toward the camera in soft focus.',video:'videos/v4/lifestyle-tasting.mp4',locked:false},
+    ];
+    const MAX_PICKS = 3;
+    const API_BASE = 'https://jolly-pond-08e244610.7.azurestaticapps.net';
 
-    const sceneImg = document.getElementById('scene-img');
-    const previewFrame = document.getElementById('preview-frame');
-    const statusText = document.getElementById('status-text');
-    const metaBrand = document.getElementById('meta-brand');
-    const chips = document.querySelectorAll('#brand-chips .chip');
+    // State: ordered list of picked archetype keys
+    const picks = [];
 
-    function setBrand(slug, name) {
-      previewFrame.classList.add('loading');
-      const next = sceneFor(slug);
-      const probe = new Image();
-      probe.onload = () => {
-        sceneImg.src = next;
-        sceneImg.alt = `Vosges Very Berry tower with the ${name} logo gold-foil-embossed on every visible box face and the hangtag`;
-        statusText.textContent = `${name} · live scene-edit`;
-        metaBrand.textContent = name;
-        previewFrame.classList.remove('loading');
-      };
-      probe.onerror = () => {
-        statusText.textContent = `scene unavailable for ${name}`;
-        previewFrame.classList.remove('loading');
-      };
-      probe.src = next;
+    const grid = document.getElementById('vote-grid');
+    const pickCount = document.getElementById('pick-count');
+    const pickSummary = document.getElementById('pick-summary');
+    const voteButton = document.getElementById('vote-button');
+    const modalOverlay = document.getElementById('modal-overlay');
+    const modalForm = document.getElementById('modal-form');
+    const modalSuccess = document.getElementById('modal-success');
+    const picksSummaryEl = document.getElementById('picks-summary');
+    const errorEl = document.getElementById('vote-error');
+
+    function renderGrid(){
+      grid.innerHTML = '';
+      ARCHETYPES.forEach(a => {
+        const card = document.createElement('div');
+        card.className = 'v-card';
+        card.dataset.key = a.key;
+        card.innerHTML = `
+          <div class="v-rank" data-rank></div>
+          <video src="${a.video}" loop muted playsinline preload="metadata" controls></video>
+          <div class="v-num">#${a.num} · ${a.sub}</div>
+          <h3>${a.name}</h3>
+          <p class="v-cap">${a.mech}</p>
+          <div class="v-meta">
+            ${a.locked ? '<span class="v-locked">Anchor locked</span>' : ''}
+            <span class="v-engine">5s · 720p · Wan 2.7 i2v</span>
+          </div>
+        `;
+        // Click on card body (not video controls) toggles selection
+        card.addEventListener('click', e => {
+          if (e.target.tagName === 'VIDEO' || e.target.closest('video')) return;
+          toggleSelect(a.key, card);
+        });
+        grid.appendChild(card);
+      });
     }
 
-    chips.forEach((b) => {
-      b.addEventListener('click', () => {
-        chips.forEach((x) => x.classList.remove('active'));
-        b.classList.add('active');
-        setBrand(b.dataset.slug, b.dataset.name);
+    function toggleSelect(key, card){
+      const idx = picks.indexOf(key);
+      if (idx >= 0){
+        picks.splice(idx, 1);
+      } else {
+        if (picks.length >= MAX_PICKS){
+          card.animate(
+            [{transform:'translateX(0)'},{transform:'translateX(-6px)'},{transform:'translateX(6px)'},{transform:'translateX(0)'}],
+            {duration:240, iterations:1}
+          );
+          return;
+        }
+        picks.push(key);
+      }
+      refreshUI();
+    }
+
+    function refreshUI(){
+      // Update each card's selected state + rank chip
+      document.querySelectorAll('.v-card').forEach(card => {
+        const key = card.dataset.key;
+        const rank = picks.indexOf(key);
+        if (rank >= 0){
+          card.classList.add('selected');
+          card.querySelector('[data-rank]').textContent = rank + 1;
+          card.classList.remove('disabled');
+        } else {
+          card.classList.remove('selected');
+          card.classList.toggle('disabled', picks.length >= MAX_PICKS);
+        }
       });
-    });
+      pickCount.textContent = picks.length;
+      pickSummary.textContent = picks.length === 0
+        ? 'click a card to start'
+        : picks.map((k,i) => `${i+1}. ${ARCHETYPES.find(a=>a.key===k).name}`).join(' · ');
+      voteButton.disabled = picks.length < 1;
+    }
+
+    function openModal(){
+      if (picks.length < 1) return;
+      const list = picks.map((k,i) => {
+        const a = ARCHETYPES.find(a=>a.key===k);
+        return `<li><b style="color:var(--ink)">${a.name}</b> — <span style="color:var(--gold-light)">${a.sub}</span></li>`;
+      }).join('');
+      picksSummaryEl.innerHTML = `<b>Your top ${picks.length}</b><ol>${list}</ol>`;
+      errorEl.style.display = 'none';
+      errorEl.textContent = '';
+      modalForm.style.display = '';
+      modalSuccess.style.display = 'none';
+      modalOverlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeModal(){
+      modalOverlay.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    async function submitVote(){
+      const name = document.getElementById('voter-name').value.trim();
+      const email = document.getElementById('voter-email').value.trim();
+      const comment = document.getElementById('voter-comment').value.trim();
+      errorEl.style.display = 'none';
+      if (!name){ showError('Please add your name'); return; }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ showError('Please add a valid email'); return; }
+
+      const submitBtn = document.getElementById('modal-submit');
+      submitBtn.disabled = true; submitBtn.textContent = 'Submitting…';
+      try {
+        const r = await fetch(API_BASE + '/api/vote', {
+          method:'POST',
+          headers:{'Content-Type':'application/json'},
+          body: JSON.stringify({ name, email, picks, comment, brand:'Netflix · Vosges Berry Tower' }),
+        });
+        const data = await r.json().catch(()=>({}));
+        if (!r.ok){ showError(data.error || ('Failed: HTTP ' + r.status)); return; }
+        // Success
+        modalForm.style.display = 'none';
+        modalSuccess.style.display = '';
+        if (data.issueUrl){
+          const link = document.getElementById('success-issue-link');
+          link.href = data.issueUrl;
+          link.style.display = 'inline';
+        }
+      } catch (err){
+        showError('Network error — please try again');
+      } finally {
+        submitBtn.disabled = false; submitBtn.textContent = 'Submit vote';
+      }
+    }
+
+    function showError(msg){
+      errorEl.textContent = msg;
+      errorEl.style.display = 'block';
+    }
+
+    // Wire up
+    renderGrid();
+    refreshUI();
+    voteButton.addEventListener('click', openModal);
+    document.getElementById('modal-cancel').addEventListener('click', closeModal);
+    document.getElementById('modal-close').addEventListener('click', closeModal);
+    document.getElementById('modal-submit').addEventListener('click', submitVote);
+    modalOverlay.addEventListener('click', e => { if (e.target === modalOverlay) closeModal(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
   </script>
 </body>
 </html>
